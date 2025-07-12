@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow RP FR - Chargement</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Particules d'arrière-plan */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Effet de grille cyberpunk */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 2;
+            animation: grid-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes grid-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.1; }
+        }
+
+        /* Container principal */
+        .loading-container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Logo/Titre */
+        .server-title {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 40px rgba(0, 255, 255, 0.6),
+                0 0 60px rgba(0, 255, 255, 0.4);
+            margin-bottom: 1rem;
+            animation: title-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes title-glow {
+            from { 
+                text-shadow: 
+                    0 0 20px rgba(0, 255, 255, 0.8),
+                    0 0 40px rgba(0, 255, 255, 0.6),
+                    0 0 60px rgba(0, 255, 255, 0.4);
+            }
+            to { 
+                text-shadow: 
+                    0 0 30px rgba(0, 255, 255, 1),
+                    0 0 50px rgba(0, 255, 255, 0.8),
+                    0 0 80px rgba(0, 255, 255, 0.6);
+            }
+        }
+
+        .server-subtitle {
+            font-size: 1.5rem;
+            color: #888;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* Barre de progression */
+        .progress-container {
+            width: 500px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 2rem;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #0080ff, #00ffff);
+            border-radius: 10px;
+            width: 0%;
+            animation: progress-fill 3s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progress-shine 2s ease-in-out infinite;
+        }
+
+        @keyframes progress-fill {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            100% { width: 0%; }
+        }
+
+        @keyframes progress-shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Texte de chargement */
+        .loading-text {
+            font-size: 1.2rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            animation: text-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes text-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Informations serveur */
+        .server-info {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .server-info h3 {
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Effets décoratifs */
+        .corner-decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .corner-decoration.top-left {
+            top: 30px;
+            left: 30px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.top-right {
+            top: 30px;
+            right: 30px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: 30px;
+            left: 30px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: 30px;
+            right: 30px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .server-title {
+                font-size: 2.5rem;
+            }
+            
+            .progress-container {
+                width: 300px;
+            }
+            
+            .server-info {
+                left: 20px;
+                bottom: 20px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    <div class="grid-overlay"></div>
+    
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    
+    <div class="loading-container">
+        <h1 class="server-title">SHADOW RP</h1>
+        <p class="server-subtitle">Serveur Français</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <div class="loading-text">Chargement en cours...</div>
+    </div>
+    
+    <div class="server-info">
+        <h3>Bienvenue sur Shadow RP FR</h3>
+        <p>• Serveur RolePlay Français</p>
+        <p>• Communauté active et accueillante</p>
+        <p>• Règles strictes pour une meilleure expérience</p>
+        <p>• Rejoignez notre Discord pour plus d'infos</p>
+    </div>
+
+    <script>
+        // Création des particules
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Messages de chargement rotatifs
+        const loadingMessages = [
+            'Chargement en cours...',
+            'Connexion au serveur...',
+            'Chargement des ressources...',
+            'Initialisation...',
+            'Presque prêt...',
+            'Finalisation...'
+        ];
+
+        let messageIndex = 0;
+        const loadingText = document.querySelector('.loading-text');
+
+        function rotateLoadingMessage() {
+            loadingText.textContent = loadingMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % loadingMessages.length;
+        }
+
+        // Initialisation
+        createParticles();
+        setInterval(rotateLoadingMessage, 2000);
+
+        // Simulation de progression (pour test)
+        let progress = 0;
+        const progressBar = document.querySelector('.progress-bar');
+        
+        function updateProgress() {
+            progress += Math.random() * 2;
+            if (progress > 100) progress = 0;
+            progressBar.style.width = progress + '%';
+        }
+        
+        setInterval(updateProgress, 100);
+    </script>
+</body>
+</html>

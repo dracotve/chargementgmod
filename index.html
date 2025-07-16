@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow RP FR - Chargement</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Shadow RP - Chargement</title>
     <style>
         * {
             margin: 0;
@@ -13,299 +12,284 @@
         }
 
         body {
-            font-family: 'Orbitron', monospace;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
             position: relative;
         }
 
+        /* Particules d'arrière-plan */
         .particles {
             position: absolute;
             width: 100%;
             height: 100%;
+            overflow: hidden;
             z-index: 1;
         }
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.3);
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            animation: float 8s infinite linear;
+            animation: float 6s infinite ease-in-out;
         }
 
         @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
         }
 
-        .grid-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: 2;
-            animation: grid-pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes grid-pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.1; }
-        }
-
+        /* Conteneur principal */
         .loading-container {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
+            z-index: 10;
+            position: relative;
         }
 
-        .server-title {
+        /* Titre principal */
+        .main-title {
             font-size: 4rem;
-            font-weight: 900;
-            color: #ffffff;
+            font-weight: bold;
+            color: #fff;
             text-shadow: 
-                0 0 20px rgba(0, 255, 255, 0.8),
-                0 0 40px rgba(0, 255, 255, 0.6),
-                0 0 60px rgba(0, 255, 255, 0.4);
-            margin-bottom: 1rem;
-            animation: title-glow 2s ease-in-out infinite alternate;
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 40px rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            letter-spacing: 8px;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes title-glow {
+        @keyframes glow {
             from {
                 text-shadow: 
-                    0 0 20px rgba(0, 255, 255, 0.8),
-                    0 0 40px rgba(0, 255, 255, 0.6),
-                    0 0 60px rgba(0, 255, 255, 0.4);
+                    0 0 20px rgba(255, 255, 255, 0.5),
+                    0 0 40px rgba(255, 255, 255, 0.3),
+                    0 0 60px rgba(255, 255, 255, 0.1);
             }
             to {
                 text-shadow: 
-                    0 0 30px rgba(0, 255, 255, 1),
-                    0 0 50px rgba(0, 255, 255, 0.8),
-                    0 0 80px rgba(0, 255, 255, 0.6);
+                    0 0 30px rgba(255, 255, 255, 0.8),
+                    0 0 50px rgba(255, 255, 255, 0.5),
+                    0 0 80px rgba(255, 255, 255, 0.2);
             }
         }
 
-        .server-subtitle {
-            font-size: 1.5rem;
-            color: #888;
-            margin-bottom: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+        /* Spinner de chargement */
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 2rem;
         }
 
-        .progress-container {
-            width: 500px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 2rem;
-            box-shadow: 
-                0 0 20px rgba(0, 255, 255, 0.3),
-                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #00ffff, #0080ff, #00ffff);
-            border-radius: 10px;
-            width: 0%;
-            animation: progress-fill 3s ease-in-out infinite;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: progress-shine 2s ease-in-out infinite;
-        }
-
-        @keyframes progress-fill {
-            0% { width: 0%; }
-            50% { width: 100%; }
-            100% { width: 0%; }
-        }
-
-        @keyframes progress-shine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
+        /* Texte de chargement */
         .loading-text {
+            color: #ccc;
             font-size: 1.2rem;
-            color: #00ffff;
             margin-bottom: 1rem;
-            animation: text-pulse 1.5s ease-in-out infinite;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        @keyframes text-pulse {
+        @keyframes pulse {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
         }
 
-        .server-info {
+        /* Barre de progression */
+        .progress-bar {
+            width: 400px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fff, #ccc, #fff);
+            border-radius: 2px;
+            animation: progress 3s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* Effet de vague d'énergie */
+        .energy-wave {
             position: absolute;
-            bottom: 50px;
-            left: 50px;
-            color: #888;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: wave 4s ease-in-out infinite;
         }
 
-        .server-info h3 {
-            color: #00ffff;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .corner-decoration {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border: 2px solid rgba(0, 255, 255, 0.3);
-        }
-
-        .corner-decoration.top-left {
-            top: 30px;
-            left: 30px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .corner-decoration.top-right {
-            top: 30px;
-            right: 30px;
-            border-left: none;
-            border-bottom: none;
-        }
-
-        .corner-decoration.bottom-left {
-            bottom: 30px;
-            left: 30px;
-            border-right: none;
-            border-top: none;
-        }
-
-        .corner-decoration.bottom-right {
-            bottom: 30px;
-            right: 30px;
-            border-left: none;
-            border-top: none;
-        }
-
-        @media (max-width: 768px) {
-            .server-title {
-                font-size: 2.5rem;
+        @keyframes wave {
+            0% { 
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.8;
             }
+            100% { 
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0;
+            }
+        }
 
-            .progress-container {
+        /* Bouton Discord */
+        .discord-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+            z-index: 100;
+        }
+
+        .discord-button:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+        }
+
+        .discord-button:active {
+            transform: translateY(0);
+        }
+
+        .discord-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .progress-bar {
                 width: 300px;
             }
-
-            .server-info {
-                left: 20px;
+            
+            .discord-button {
                 bottom: 20px;
-                font-size: 0.8rem;
+                left: 20px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Particules d'arrière-plan -->
     <div class="particles"></div>
-    <div class="grid-overlay"></div>
 
-    <div class="corner-decoration top-left"></div>
-    <div class="corner-decoration top-right"></div>
-    <div class="corner-decoration bottom-left"></div>
-    <div class="corner-decoration bottom-right"></div>
+    <!-- Ondulations d'énergie -->
+    <div class="energy-wave"></div>
 
+    <!-- Conteneur principal -->
     <div class="loading-container">
-        <h1 class="server-title">SHADOW RP</h1>
-        <p class="server-subtitle">Serveur Français</p>
-
-        <div class="progress-container">
-            <div class="progress-bar"></div>
+        <h1 class="main-title">SHADOW RP</h1>
+        
+        <div class="spinner"></div>
+        
+        <p class="loading-text">Chargement en cours...</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
         </div>
-
-        <div class="loading-text">Chargement en cours...</div>
     </div>
 
-    <div class="server-info">
-        <h3>Bienvenue sur Shadow RP FR</h3>
-        <p>• Serveur RolePlay Français</p>
-        <p>• Communauté active et accueillante</p>
-        <p>• Règles strictes pour une meilleure expérience</p>
-        <p>• Rejoignez notre Discord pour plus d'infos</p>
-    </div>
+    <!-- Bouton Discord -->
+    <a href="https://discord.gg/TBTjCED7aK" target="_blank" class="discord-button">
+        <svg class="discord-icon" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.010c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.196.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+        Discord
+    </a>
 
     <script>
-        // Création des particules
+        // Génération de particules aléatoires
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
-            for (let i = 0; i < 50; i++) {
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
+                
+                // Position aléatoire
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Délai d'animation aléatoire
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                
                 particlesContainer.appendChild(particle);
             }
         }
 
-        // Messages de chargement rotatifs
-        const loadingMessages = [
-            'Chargement en cours...',
-            'Connexion au serveur...',
-            'Chargement des ressources...',
-            'Initialisation...',
-            'Presque prêt...',
-            'Finalisation...'
-        ];
-
-        let messageIndex = 0;
-        const loadingText = document.querySelector('.loading-text');
-
-        function rotateLoadingMessage() {
-            loadingText.textContent = loadingMessages[messageIndex];
-            messageIndex = (messageIndex + 1) % loadingMessages.length;
+        // Simulation de progression de chargement
+        function simulateLoading() {
+            const loadingTexts = [
+                'Initialisation des serveurs...',
+                'Chargement des ressources...',
+                'Connexion au serveur...',
+                'Préparation de l\'environnement...',
+                'Presque terminé...'
+            ];
+            
+            const loadingTextElement = document.querySelector('.loading-text');
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                loadingTextElement.textContent = loadingTexts[currentIndex];
+                currentIndex = (currentIndex + 1) % loadingTexts.length;
+            }, 2000);
         }
 
-        createParticles();
-        setInterval(rotateLoadingMessage, 2000);
-
-        // Progression simulée
-        let progress = 0;
-        const progressBar = document.querySelector('.progress-bar');
-
-        function updateProgress() {
-            progress += Math.random() * 2;
-            if (progress > 100) progress = 0;
-            progressBar.style.width = progress + '%';
-        }
-
-        setInterval(updateProgress, 100);
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            simulateLoading();
+        });
     </script>
 </body>
 </html>

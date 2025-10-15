@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow RP - Chargement</title>
+    <title>Chargement Eclipse</title>
     <style>
         * {
             margin: 0;
@@ -12,17 +12,143 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .eclipse-text {
+            font-size: 64px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .eclipse-ring {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #ff6b6b;
+            border-right-color: #4ecdc4;
+            border-bottom-color: #ffe66d;
+            border-left-color: #a8dadc;
+            animation: rotate 2s linear infinite;
+        }
+
+        .eclipse-ring:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            animation: rotate 1.5s linear infinite reverse;
+            border-top-color: #4ecdc4;
+            border-right-color: #ffe66d;
+            border-bottom-color: #a8dadc;
+            border-left-color: #ff6b6b;
+        }
+
+        .eclipse-ring:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            animation: rotate 1s linear infinite;
+            border-top-color: #ffe66d;
+            border-right-color: #a8dadc;
+            border-bottom-color: #ff6b6b;
+            border-left-color: #4ecdc4;
+        }
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .planet1 {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit1 2s linear infinite;
+        }
+
+        .planet2 {
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, #4ecdc4, #6ee7df);
+            top: -12.5px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit2 1.5s linear infinite;
+        }
+
+        .planet3 {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ffe66d, #fff89a);
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit3 1s linear infinite;
+        }
+
+        @keyframes orbit1 {
+            0% { transform: translateX(-50%) rotate(0deg) translateX(150px) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg) translateX(150px) rotate(-360deg); }
+        }
+
+        @keyframes orbit2 {
+            0% { transform: translateX(-50%) rotate(0deg) translateX(125px) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(-360deg) translateX(125px) rotate(360deg); }
+        }
+
+        @keyframes orbit3 {
+            0% { transform: translateX(-50%) rotate(0deg) translateX(100px) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             overflow: hidden;
             position: relative;
         }
 
-        /* Particules d'arrière-plan */
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #ffe66d, #a8dadc);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            animation: loading 2s ease-in-out infinite, gradient 3s linear infinite;
+            width: 0%;
+        }
+
+        .percentage {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
         .particles {
             position: absolute;
             width: 100%;
@@ -33,255 +159,107 @@
 
         .particle {
             position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
-            animation: float 6s infinite ease-in-out;
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
-        }
-
-        /* Conteneur principal */
-        .loading-container {
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        /* Titre principal */
-        .main-title {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 0.5),
-                0 0 40px rgba(255, 255, 255, 0.3),
-                0 0 60px rgba(255, 255, 255, 0.1);
-            margin-bottom: 2rem;
-            letter-spacing: 8px;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 
-                    0 0 20px rgba(255, 255, 255, 0.5),
-                    0 0 40px rgba(255, 255, 255, 0.3),
-                    0 0 60px rgba(255, 255, 255, 0.1);
-            }
-            to {
-                text-shadow: 
-                    0 0 30px rgba(255, 255, 255, 0.8),
-                    0 0 50px rgba(255, 255, 255, 0.5),
-                    0 0 80px rgba(255, 255, 255, 0.2);
-            }
-        }
-
-        /* Spinner de chargement */
-        .spinner {
-            width: 80px;
-            height: 80px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 2rem;
-        }
-
-        @keyframes spin {
+        @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* Texte de chargement */
-        .loading-text {
-            color: #ccc;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+            0%, 100% { 
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                             0 0 40px rgba(78, 205, 196, 0.3);
+            }
+            50% { 
+                opacity: 0.8;
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+                             0 0 60px rgba(78, 205, 196, 0.5);
+            }
         }
 
-        /* Barre de progression */
-        .progress-bar {
-            width: 400px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #fff, #ccc, #fff);
-            border-radius: 2px;
-            animation: progress 3s ease-in-out infinite;
-        }
-
-        @keyframes progress {
+        @keyframes loading {
             0% { width: 0%; }
             50% { width: 70%; }
             100% { width: 100%; }
         }
 
-        /* Effet de vague d'énergie */
-        .energy-wave {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: wave 4s ease-in-out infinite;
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
-        @keyframes wave {
-            0% { 
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 0.8;
-            }
-            100% { 
-                transform: translate(-50%, -50%) scale(1.2);
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
                 opacity: 0;
             }
-        }
-
-        /* Bouton Discord */
-        .discord-button {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #5865F2;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
-            z-index: 100;
-        }
-
-        .discord-button:hover {
-            background: #4752C4;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
-        }
-
-        .discord-button:active {
-            transform: translateY(0);
-        }
-
-        .discord-icon {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
+            10% {
+                opacity: 1;
             }
-            
-            .progress-bar {
-                width: 300px;
+            90% {
+                opacity: 1;
             }
-            
-            .discord-button {
-                bottom: 20px;
-                left: 20px;
-                padding: 12px 20px;
-                font-size: 0.9rem;
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Particules d'arrière-plan -->
-    <div class="particles"></div>
-
-    <!-- Ondulations d'énergie -->
-    <div class="energy-wave"></div>
-
-    <!-- Conteneur principal -->
-    <div class="loading-container">
-        <h1 class="main-title">SHADOW RP</h1>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="eclipse-ring"></div>
+        <div class="eclipse-ring"></div>
+        <div class="eclipse-ring"></div>
         
-        <div class="spinner"></div>
+        <h1 class="eclipse-text">ECLIPSE</h1>
         
-        <p class="loading-text">Chargement en cours...</p>
-        
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
+        <div>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <div class="percentage" id="percentage">0%</div>
         </div>
     </div>
 
     <script>
-        // Génération de particules aléatoires
-        function createParticles() {
-            const particlesContainer = document.querySelector('.particles');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                // Position aléatoire
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                
-                // Délai d'animation aléatoire
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                
-                particlesContainer.appendChild(particle);
+        // Créer des particules animées
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Animation du pourcentage
+        const percentageEl = document.getElementById('percentage');
+        const loadingBar = document.getElementById('loadingBar');
+        let progress = 0;
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 3;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    percentageEl.textContent = 'Terminé !';
+                }, 500);
             }
-        }
-
-        // Simulation de progression de chargement
-        function simulateLoading() {
-            const loadingTexts = [
-                'Initialisation des serveurs...',
-                'Chargement des ressources...',
-                'Connexion au serveur...',
-                'Préparation de l\'environnement...',
-                'Presque terminé...'
-            ];
-            
-            const loadingTextElement = document.querySelector('.loading-text');
-            let currentIndex = 0;
-            
-            setInterval(() => {
-                loadingTextElement.textContent = loadingTexts[currentIndex];
-                currentIndex = (currentIndex + 1) % loadingTexts.length;
-            }, 2000);
-        }
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            simulateLoading();
-        });
+            percentageEl.textContent = Math.floor(progress) + '%';
+            loadingBar.style.width = progress + '%';
+        }, 100);
     </script>
 </body>
 </html>

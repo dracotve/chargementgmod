@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chargement Eclipse</title>
+    <title>Eclipse Loading</title>
     <style>
         * {
             margin: 0;
@@ -12,254 +12,440 @@
         }
 
         body {
+            width: 100vw;
             height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #0a0520 0%, #000000 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            overflow: hidden;
             font-family: 'Arial', sans-serif;
         }
 
-        .container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .eclipse-text {
-            font-size: 64px;
-            font-weight: bold;
-            color: #fff;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            position: relative;
-            z-index: 2;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .eclipse-ring {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: #ff6b6b;
-            border-right-color: #4ecdc4;
-            border-bottom-color: #ffe66d;
-            border-left-color: #a8dadc;
-            animation: rotate 2s linear infinite;
-        }
-
-        .eclipse-ring:nth-child(2) {
-            width: 250px;
-            height: 250px;
-            animation: rotate 1.5s linear infinite reverse;
-            border-top-color: #4ecdc4;
-            border-right-color: #ffe66d;
-            border-bottom-color: #a8dadc;
-            border-left-color: #ff6b6b;
-        }
-
-        .eclipse-ring:nth-child(3) {
-            width: 200px;
-            height: 200px;
-            animation: rotate 1s linear infinite;
-            border-top-color: #ffe66d;
-            border-right-color: #a8dadc;
-            border-bottom-color: #ff6b6b;
-            border-left-color: #4ecdc4;
-        }
-
-        .planet {
-            position: absolute;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .planet1 {
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8787);
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: orbit1 2s linear infinite;
-        }
-
-        .planet2 {
-            width: 25px;
-            height: 25px;
-            background: linear-gradient(135deg, #4ecdc4, #6ee7df);
-            top: -12.5px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: orbit2 1.5s linear infinite;
-        }
-
-        .planet3 {
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #ffe66d, #fff89a);
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: orbit3 1s linear infinite;
-        }
-
-        @keyframes orbit1 {
-            0% { transform: translateX(-50%) rotate(0deg) translateX(150px) rotate(0deg); }
-            100% { transform: translateX(-50%) rotate(360deg) translateX(150px) rotate(-360deg); }
-        }
-
-        @keyframes orbit2 {
-            0% { transform: translateX(-50%) rotate(0deg) translateX(125px) rotate(0deg); }
-            100% { transform: translateX(-50%) rotate(-360deg) translateX(125px) rotate(360deg); }
-        }
-
-        @keyframes orbit3 {
-            0% { transform: translateX(-50%) rotate(0deg) translateX(100px) rotate(0deg); }
-            100% { transform: translateX(-50%) rotate(360deg) translateX(100px) rotate(-360deg); }
-        }
-
-        .loading-bar-container {
-            width: 300px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .loading-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #ffe66d, #a8dadc);
-            background-size: 200% 100%;
-            border-radius: 10px;
-            animation: loading 2s ease-in-out infinite, gradient 3s linear infinite;
-            width: 0%;
-        }
-
-        .percentage {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 18px;
-            margin-top: 10px;
-            letter-spacing: 2px;
-        }
-
-        .particles {
+        .stars {
             position: absolute;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .eclipse-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Soleil ultra réaliste */
+        .sun {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 38% 35%, 
+                    #fffef0 0%,
+                    #fffae6 8%,
+                    #fff4d5 15%,
+                    #ffebb0 25%,
+                    #ffd98f 35%,
+                    #ffc368 45%,
+                    #ffad42 55%,
+                    #ff9a2e 65%,
+                    #ff8820 75%,
+                    #ff7518 85%,
+                    #ff6b10 95%,
+                    #e66210 100%);
+            box-shadow: 
+                0 0 60px 20px rgba(255, 180, 80, 0.8),
+                0 0 120px 40px rgba(255, 140, 60, 0.6),
+                0 0 180px 60px rgba(255, 100, 40, 0.4),
+                0 0 240px 80px rgba(255, 80, 20, 0.2),
+                inset -30px -30px 60px rgba(230, 100, 20, 0.3),
+                inset 20px 20px 40px rgba(255, 255, 255, 0.1);
+            filter: brightness(1.1);
+        }
+
+        /* Granulation solaire (texture détaillée) */
+        .sun::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 25% 28%, rgba(255, 255, 240, 0.4) 0%, transparent 6%),
+                radial-gradient(circle at 18% 35%, rgba(255, 255, 230, 0.35) 0%, transparent 5%),
+                radial-gradient(circle at 32% 42%, rgba(255, 250, 220, 0.3) 0%, transparent 7%),
+                radial-gradient(circle at 58% 25%, rgba(255, 255, 235, 0.38) 0%, transparent 6%),
+                radial-gradient(circle at 68% 32%, rgba(255, 250, 225, 0.32) 0%, transparent 5%),
+                radial-gradient(circle at 75% 45%, rgba(255, 255, 230, 0.35) 0%, transparent 6%),
+                radial-gradient(circle at 42% 58%, rgba(255, 245, 215, 0.3) 0%, transparent 8%),
+                radial-gradient(circle at 55% 68%, rgba(255, 250, 220, 0.33) 0%, transparent 7%),
+                radial-gradient(circle at 28% 72%, rgba(255, 255, 225, 0.36) 0%, transparent 6%),
+                radial-gradient(circle at 72% 75%, rgba(255, 250, 230, 0.31) 0%, transparent 5%),
+                radial-gradient(circle at 82% 62%, rgba(255, 240, 200, 0.28) 0%, transparent 9%),
+                radial-gradient(circle at 65% 82%, rgba(255, 235, 195, 0.25) 0%, transparent 10%);
+            animation: solarSurface 15s ease-in-out infinite;
+            opacity: 0.9;
+        }
+
+        /* Taches solaires */
+        .sun::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 45% 38%, rgba(80, 40, 10, 0.5) 0%, transparent 3%),
+                radial-gradient(circle at 62% 55%, rgba(70, 35, 10, 0.45) 0%, transparent 2.5%),
+                radial-gradient(circle at 35% 68%, rgba(75, 38, 12, 0.48) 0%, transparent 2.8%);
+            animation: solarSpots 20s linear infinite;
+        }
+
+        /* Lune ultra réaliste avec relief */
+        .moon {
+            position: absolute;
+            width: 290px;
+            height: 290px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 42% 38%, 
+                    #505050 0%,
+                    #454545 10%,
+                    #3a3a3a 20%,
+                    #323232 30%,
+                    #2a2a2a 40%,
+                    #242424 50%,
+                    #1e1e1e 60%,
+                    #181818 70%,
+                    #121212 80%,
+                    #0d0d0d 90%,
+                    #080808 100%);
+            animation: eclipseMovement 10s ease-in-out infinite;
+            z-index: 3;
+            box-shadow: 
+                inset -25px -25px 50px rgba(0, 0, 0, 0.9),
+                inset 15px 15px 30px rgba(80, 80, 80, 0.1);
+        }
+
+        /* Cratères lunaires détaillés */
+        .moon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                /* Grands cratères */
+                radial-gradient(circle at 32% 28%, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 3%, transparent 8%),
+                radial-gradient(circle at 28% 32%, rgba(60, 60, 60, 0.3) 0%, transparent 9%),
+                
+                radial-gradient(circle at 68% 38%, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.35) 4%, transparent 10%),
+                radial-gradient(circle at 65% 35%, rgba(55, 55, 55, 0.25) 0%, transparent 11%),
+                
+                radial-gradient(circle at 52% 62%, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 3.5%, transparent 9%),
+                radial-gradient(circle at 50% 60%, rgba(58, 58, 58, 0.28) 0%, transparent 10%),
+                
+                /* Cratères moyens */
+                radial-gradient(circle at 45% 35%, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 2%, transparent 5%),
+                radial-gradient(circle at 78% 52%, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 2.5%, transparent 6%),
+                radial-gradient(circle at 25% 55%, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.22) 2.2%, transparent 5.5%),
+                radial-gradient(circle at 58% 48%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.18) 2%, transparent 5%),
+                radial-gradient(circle at 72% 68%, rgba(0, 0, 0, 0.53) 0%, rgba(0, 0, 0, 0.23) 2.3%, transparent 5.8%),
+                
+                /* Petits cratères */
+                radial-gradient(circle at 38% 45%, rgba(0, 0, 0, 0.45) 0%, transparent 2%),
+                radial-gradient(circle at 62% 58%, rgba(0, 0, 0, 0.42) 0%, transparent 1.8%),
+                radial-gradient(circle at 48% 72%, rgba(0, 0, 0, 0.4) 0%, transparent 2.2%),
+                radial-gradient(circle at 82% 42%, rgba(0, 0, 0, 0.43) 0%, transparent 1.5%),
+                radial-gradient(circle at 18% 68%, rgba(0, 0, 0, 0.44) 0%, transparent 2%),
+                radial-gradient(circle at 55% 82%, rgba(0, 0, 0, 0.41) 0%, transparent 1.9%),
+                
+                /* Mers lunaires (zones sombres) */
+                radial-gradient(ellipse at 35% 45%, rgba(15, 15, 15, 0.5) 0%, transparent 25%),
+                radial-gradient(ellipse at 65% 55%, rgba(18, 18, 18, 0.45) 0%, transparent 20%);
+        }
+
+        /* Texture fine et relief lunaire */
+        .moon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-image: 
+                repeating-radial-gradient(circle at 50% 50%, 
+                    transparent 0px,
+                    rgba(70, 70, 70, 0.03) 1px,
+                    transparent 2px);
+            box-shadow: 
+                inset 10px 10px 25px rgba(100, 100, 100, 0.08),
+                inset -10px -10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Couronne solaire réaliste */
+        .corona {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: transparent;
+            opacity: 0;
+            animation: coronaAppear 10s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .corona::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 30px 8px rgba(255, 240, 220, 0.8),
+                0 0 60px 15px rgba(255, 220, 180, 0.6),
+                0 0 90px 25px rgba(255, 200, 150, 0.4),
+                0 0 120px 35px rgba(255, 180, 120, 0.2);
+        }
+
+        /* Protubérances solaires */
+        .prominence {
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: prominenceAppear 10s ease-in-out infinite;
             z-index: 1;
         }
 
-        .particle {
+        .prominence::before,
+        .prominence::after {
+            content: '';
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: float 3s ease-in-out infinite;
+            background: radial-gradient(ellipse, rgba(255, 150, 100, 0.6) 0%, transparent 70%);
+            filter: blur(8px);
         }
 
-        @keyframes rotate {
+        .prominence::before {
+            width: 80px;
+            height: 120px;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-5deg);
+        }
+
+        .prominence::after {
+            width: 70px;
+            height: 100px;
+            bottom: -15px;
+            right: 20%;
+            transform: rotate(15deg);
+        }
+
+        /* Rayons de Bailey (perles de Baily) */
+        .bailey-beads {
+            position: absolute;
+            width: 295px;
+            height: 295px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: baileyBeads 10s ease-in-out infinite;
+            z-index: 4;
+        }
+
+        .bead {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #ffffff 0%, rgba(255, 200, 100, 0.8) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
+        }
+
+        .bead:nth-child(1) { top: 0; left: 50%; animation: beadGlow 0.5s ease-in-out infinite; }
+        .bead:nth-child(2) { top: 10%; right: 20%; animation: beadGlow 0.5s 0.1s ease-in-out infinite; }
+        .bead:nth-child(3) { top: 30%; right: 5%; animation: beadGlow 0.5s 0.2s ease-in-out infinite; }
+
+        /* Chromosphère */
+        .chromosphere {
+            position: absolute;
+            width: 292px;
+            height: 292px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: chromosphereGlow 10s ease-in-out infinite;
+            z-index: 2;
+            box-shadow: 
+                inset 0 0 20px 5px rgba(255, 100, 100, 0.4),
+                0 0 15px 3px rgba(255, 100, 100, 0.3);
+        }
+
+        .text {
+            position: absolute;
+            font-size: 56px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.4),
+                0 0 30px rgba(255, 200, 150, 0.3);
+            letter-spacing: 12px;
+            z-index: 10;
+            opacity: 0;
+            animation: textReveal 10s ease-in-out infinite;
+            mix-blend-mode: screen;
+        }
+
+        .loading-text {
+            position: absolute;
+            bottom: 80px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 3px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-bar {
+            position: absolute;
+            bottom: 50px;
+            width: 350px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 200, 150, 0.8) 50%,
+                rgba(255, 255, 255, 0.4) 80%,
+                transparent 100%);
+            animation: loading 10s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(255, 200, 150, 0.6);
+        }
+
+        /* Animations */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes solarSurface {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.9; }
+            50% { transform: rotate(180deg) scale(1.01); opacity: 0.95; }
+        }
+
+        @keyframes solarSpots {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 1;
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
-                             0 0 40px rgba(78, 205, 196, 0.3);
-            }
-            50% { 
-                opacity: 0.8;
-                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
-                             0 0 60px rgba(78, 205, 196, 0.5);
-            }
+        @keyframes eclipseMovement {
+            0% { transform: translateX(-250px); }
+            45% { transform: translateX(-5px); }
+            55% { transform: translateX(5px); }
+            100% { transform: translateX(250px); }
+        }
+
+        @keyframes coronaAppear {
+            0%, 35% { opacity: 0; }
+            45%, 55% { opacity: 1; }
+            65%, 100% { opacity: 0; }
+        }
+
+        @keyframes prominenceAppear {
+            0%, 40% { opacity: 0; }
+            48%, 52% { opacity: 1; }
+            60%, 100% { opacity: 0; }
+        }
+
+        @keyframes baileyBeads {
+            0%, 43% { opacity: 0; }
+            45%, 47% { opacity: 1; }
+            49%, 100% { opacity: 0; }
+        }
+
+        @keyframes beadGlow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        @keyframes chromosphereGlow {
+            0%, 42% { opacity: 0; }
+            46%, 54% { opacity: 0.8; }
+            58%, 100% { opacity: 0; }
+        }
+
+        @keyframes textReveal {
+            0%, 44% { opacity: 0; transform: scale(0.9); }
+            48%, 52% { opacity: 1; transform: scale(1); }
+            56%, 100% { opacity: 0; transform: scale(0.9); }
         }
 
         @keyframes loading {
-            0% { width: 0%; }
-            50% { width: 70%; }
-            100% { width: 100%; }
+            0% { width: 0%; transform: translateX(0); }
+            100% { width: 100%; transform: translateX(0); }
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(50px);
-                opacity: 0;
-            }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
+    <div class="stars" id="stars"></div>
     
-    <div class="container">
-        <div class="eclipse-ring"></div>
-        <div class="eclipse-ring"></div>
-        <div class="eclipse-ring"></div>
-        
-        <h1 class="eclipse-text">ECLIPSE</h1>
-        
-        <div>
-            <div class="loading-bar-container">
-                <div class="loading-bar" id="loadingBar"></div>
-            </div>
-            <div class="percentage" id="percentage">0%</div>
+    <div class="eclipse-container">
+        <div class="prominence"></div>
+        <div class="corona"></div>
+        <div class="chromosphere"></div>
+        <div class="sun"></div>
+        <div class="moon"></div>
+        <div class="bailey-beads">
+            <div class="bead"></div>
+            <div class="bead"></div>
+            <div class="bead"></div>
         </div>
+        <div class="text">ECLIPSE</div>
+    </div>
+
+    <div class="loading-text">CHARGEMENT...</div>
+    <div class="loading-bar">
+        <div class="loading-progress"></div>
     </div>
 
     <script>
-        // Créer des particules animées
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 3 + 's';
-            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            particlesContainer.appendChild(particle);
+        // Génération des étoiles
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            const size = Math.random() * 2;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            starsContainer.appendChild(star);
         }
-
-        // Animation du pourcentage
-        const percentageEl = document.getElementById('percentage');
-        const loadingBar = document.getElementById('loadingBar');
-        let progress = 0;
-
-        const interval = setInterval(() => {
-            progress += Math.random() * 3;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
-                setTimeout(() => {
-                    percentageEl.textContent = 'Terminé !';
-                }, 500);
-            }
-            percentageEl.textContent = Math.floor(progress) + '%';
-            loadingBar.style.width = progress + '%';
-        }, 100);
     </script>
 </body>
 </html>

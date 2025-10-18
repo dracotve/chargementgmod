@@ -114,86 +114,7 @@
             animation: solarSpots 20s linear infinite;
         }
 
-        /* Lune ultra réaliste avec relief */
-        .moon {
-            position: absolute;
-            width: 290px;
-            height: 290px;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle at 42% 38%, 
-                    #505050 0%,
-                    #454545 10%,
-                    #3a3a3a 20%,
-                    #323232 30%,
-                    #2a2a2a 40%,
-                    #242424 50%,
-                    #1e1e1e 60%,
-                    #181818 70%,
-                    #121212 80%,
-                    #0d0d0d 90%,
-                    #080808 100%);
-            animation: eclipseMovement 10s ease-in-out infinite;
-            z-index: 3;
-            box-shadow: 
-                inset -25px -25px 50px rgba(0, 0, 0, 0.9),
-                inset 15px 15px 30px rgba(80, 80, 80, 0.1);
-        }
 
-        /* Cratères lunaires détaillés */
-        .moon::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: 
-                /* Grands cratères */
-                radial-gradient(circle at 32% 28%, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 3%, transparent 8%),
-                radial-gradient(circle at 28% 32%, rgba(60, 60, 60, 0.3) 0%, transparent 9%),
-                
-                radial-gradient(circle at 68% 38%, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.35) 4%, transparent 10%),
-                radial-gradient(circle at 65% 35%, rgba(55, 55, 55, 0.25) 0%, transparent 11%),
-                
-                radial-gradient(circle at 52% 62%, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 3.5%, transparent 9%),
-                radial-gradient(circle at 50% 60%, rgba(58, 58, 58, 0.28) 0%, transparent 10%),
-                
-                /* Cratères moyens */
-                radial-gradient(circle at 45% 35%, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 2%, transparent 5%),
-                radial-gradient(circle at 78% 52%, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 2.5%, transparent 6%),
-                radial-gradient(circle at 25% 55%, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.22) 2.2%, transparent 5.5%),
-                radial-gradient(circle at 58% 48%, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.18) 2%, transparent 5%),
-                radial-gradient(circle at 72% 68%, rgba(0, 0, 0, 0.53) 0%, rgba(0, 0, 0, 0.23) 2.3%, transparent 5.8%),
-                
-                /* Petits cratères */
-                radial-gradient(circle at 38% 45%, rgba(0, 0, 0, 0.45) 0%, transparent 2%),
-                radial-gradient(circle at 62% 58%, rgba(0, 0, 0, 0.42) 0%, transparent 1.8%),
-                radial-gradient(circle at 48% 72%, rgba(0, 0, 0, 0.4) 0%, transparent 2.2%),
-                radial-gradient(circle at 82% 42%, rgba(0, 0, 0, 0.43) 0%, transparent 1.5%),
-                radial-gradient(circle at 18% 68%, rgba(0, 0, 0, 0.44) 0%, transparent 2%),
-                radial-gradient(circle at 55% 82%, rgba(0, 0, 0, 0.41) 0%, transparent 1.9%),
-                
-                /* Mers lunaires (zones sombres) */
-                radial-gradient(ellipse at 35% 45%, rgba(15, 15, 15, 0.5) 0%, transparent 25%),
-                radial-gradient(ellipse at 65% 55%, rgba(18, 18, 18, 0.45) 0%, transparent 20%);
-        }
-
-        /* Texture fine et relief lunaire */
-        .moon::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-image: 
-                repeating-radial-gradient(circle at 50% 50%, 
-                    transparent 0px,
-                    rgba(70, 70, 70, 0.03) 1px,
-                    transparent 2px);
-            box-shadow: 
-                inset 10px 10px 25px rgba(100, 100, 100, 0.08),
-                inset -10px -10px 25px rgba(0, 0, 0, 0.6);
-        }
 
         /* Couronne solaire réaliste */
         .corona {
@@ -304,8 +225,7 @@
                 0 0 30px rgba(255, 200, 150, 0.3);
             letter-spacing: 12px;
             z-index: 10;
-            opacity: 0;
-            animation: textReveal 10s ease-in-out infinite;
+            animation: textGlowPermanent 2s ease-in-out infinite;
             mix-blend-mode: screen;
         }
 
@@ -316,6 +236,132 @@
             color: rgba(255, 255, 255, 0.6);
             letter-spacing: 3px;
             animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Panneau d'information */
+        .info-panel {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 320px;
+            background: rgba(10, 10, 30, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            animation: slideIn 1s ease-out;
+        }
+
+        .info-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 2px solid rgba(255, 200, 150, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .info-link {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .info-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 200, 150, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(255, 200, 150, 0.2);
+        }
+
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .discord-icon {
+            fill: #5865F2;
+        }
+
+        .steam-icon {
+            fill: #1b2838;
+        }
+
+        .info-link-text {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .info-link-url {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        .info-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50%) translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .info-panel {
+                right: 15px;
+                width: 280px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .info-panel {
+                display: none;
+            }
         }
 
         .loading-bar {
@@ -356,12 +402,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes eclipseMovement {
-            0% { transform: translateX(-250px); }
-            45% { transform: translateX(-5px); }
-            55% { transform: translateX(5px); }
-            100% { transform: translateX(250px); }
-        }
 
         @keyframes coronaAppear {
             0%, 35% { opacity: 0; }
@@ -392,10 +432,19 @@
             58%, 100% { opacity: 0; }
         }
 
-        @keyframes textReveal {
-            0%, 44% { opacity: 0; transform: scale(0.9); }
-            48%, 52% { opacity: 1; transform: scale(1); }
-            56%, 100% { opacity: 0; transform: scale(0.9); }
+        @keyframes textGlowPermanent {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(0, 0, 0, 0.8),
+                    0 0 20px rgba(255, 255, 255, 0.4),
+                    0 0 30px rgba(255, 200, 150, 0.3);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 15px rgba(0, 0, 0, 0.9),
+                    0 0 30px rgba(255, 255, 255, 0.6),
+                    0 0 45px rgba(255, 200, 150, 0.5);
+            }
         }
 
         @keyframes loading {
@@ -417,7 +466,6 @@
         <div class="corona"></div>
         <div class="chromosphere"></div>
         <div class="sun"></div>
-        <div class="moon"></div>
         <div class="bailey-beads">
             <div class="bead"></div>
             <div class="bead"></div>
@@ -429,6 +477,38 @@
     <div class="loading-text">CHARGEMENT...</div>
     <div class="loading-bar">
         <div class="loading-progress"></div>
+    </div>
+
+    <!-- Panneau d'information -->
+    <div class="info-panel">
+        <div class="info-title">Eclipse</div>
+        
+        <div class="info-section">
+            <div class="info-label">Rejoignez-nous</div>
+            <a href="https://discord.gg/TBTjCED7aK" target="_blank" class="info-link">
+                <svg class="info-icon discord-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+                <div class="info-link-text">Discord</div>
+                <div class="info-link-url">discord.gg/TBTjCED7aK</div>
+            </a>
+        </div>
+
+        <div class="info-section">
+            <div class="info-label">Collection Steam</div>
+            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3436364067" target="_blank" class="info-link">
+                <svg class="info-icon steam-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12c0 4.98 3.66 9.11 8.44 9.88v-3.53c-.84.17-1.71-.24-2.09-.95c-.18-.33-.28-.7-.28-1.08c0-1.19.97-2.16 2.16-2.16c.38 0 .75.1 1.08.28c.71.38 1.12 1.25.95 2.09v3.53C17.34 21.11 22 16.98 22 12c0-5.52-4.48-10-10-10zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5s2.01-4.5 4.5-4.5s4.5 2.01 4.5 4.5s-2.01 4.5-4.5 4.5z"/>
+                    <circle cx="12" cy="12" r="2.5"/>
+                </svg>
+                <div class="info-link-text">Workshop</div>
+                <div class="info-link-url">steamcommunity.com/.../3436364067</div>
+            </a>
+        </div>
+
+        <div class="info-description">
+            Découvrez notre collection complète et rejoignez la communauté !
+        </div>
     </div>
 
     <script>

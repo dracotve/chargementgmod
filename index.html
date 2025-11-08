@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eclipse Loading</title>
+    <title>Minecraft Launcher - Auto-Update Mods</title>
     <style>
         * {
             margin: 0;
@@ -12,520 +12,626 @@
         }
 
         body {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            background: radial-gradient(ellipse at center, #0a0520 0%, #000000 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-title {
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
-        }
-
-        .eclipse-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* Soleil ultra réaliste */
-        .sun {
-            position: absolute;
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle at 38% 35%, 
-                    #fffef0 0%,
-                    #fffae6 8%,
-                    #fff4d5 15%,
-                    #ffebb0 25%,
-                    #ffd98f 35%,
-                    #ffc368 45%,
-                    #ffad42 55%,
-                    #ff9a2e 65%,
-                    #ff8820 75%,
-                    #ff7518 85%,
-                    #ff6b10 95%,
-                    #e66210 100%);
-            box-shadow: 
-                0 0 60px 20px rgba(255, 180, 80, 0.8),
-                0 0 120px 40px rgba(255, 140, 60, 0.6),
-                0 0 180px 60px rgba(255, 100, 40, 0.4),
-                0 0 240px 80px rgba(255, 80, 20, 0.2),
-                inset -30px -30px 60px rgba(230, 100, 20, 0.3),
-                inset 20px 20px 40px rgba(255, 255, 255, 0.1);
-            filter: brightness(1.1);
+        .header-title h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Granulation solaire (texture détaillée) */
-        .sun::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle at 25% 28%, rgba(255, 255, 240, 0.4) 0%, transparent 6%),
-                radial-gradient(circle at 18% 35%, rgba(255, 255, 230, 0.35) 0%, transparent 5%),
-                radial-gradient(circle at 32% 42%, rgba(255, 250, 220, 0.3) 0%, transparent 7%),
-                radial-gradient(circle at 58% 25%, rgba(255, 255, 235, 0.38) 0%, transparent 6%),
-                radial-gradient(circle at 68% 32%, rgba(255, 250, 225, 0.32) 0%, transparent 5%),
-                radial-gradient(circle at 75% 45%, rgba(255, 255, 230, 0.35) 0%, transparent 6%),
-                radial-gradient(circle at 42% 58%, rgba(255, 245, 215, 0.3) 0%, transparent 8%),
-                radial-gradient(circle at 55% 68%, rgba(255, 250, 220, 0.33) 0%, transparent 7%),
-                radial-gradient(circle at 28% 72%, rgba(255, 255, 225, 0.36) 0%, transparent 6%),
-                radial-gradient(circle at 72% 75%, rgba(255, 250, 230, 0.31) 0%, transparent 5%),
-                radial-gradient(circle at 82% 62%, rgba(255, 240, 200, 0.28) 0%, transparent 9%),
-                radial-gradient(circle at 65% 82%, rgba(255, 235, 195, 0.25) 0%, transparent 10%);
-            animation: solarSurface 15s ease-in-out infinite;
-            opacity: 0.9;
+        .header-subtitle {
+            color: rgba(74, 222, 128, 0.7);
+            font-size: 1rem;
         }
 
-        /* Taches solaires */
-        .sun::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle at 45% 38%, rgba(80, 40, 10, 0.5) 0%, transparent 3%),
-                radial-gradient(circle at 62% 55%, rgba(70, 35, 10, 0.45) 0%, transparent 2.5%),
-                radial-gradient(circle at 35% 68%, rgba(75, 38, 12, 0.48) 0%, transparent 2.8%);
-            animation: solarSpots 20s linear infinite;
-        }
-
-
-
-        /* Couronne solaire réaliste */
-        .corona {
-            position: absolute;
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            background: transparent;
-            opacity: 0;
-            animation: coronaAppear 10s ease-in-out infinite;
-            z-index: 2;
-        }
-
-        .corona::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 
-                0 0 30px 8px rgba(255, 240, 220, 0.8),
-                0 0 60px 15px rgba(255, 220, 180, 0.6),
-                0 0 90px 25px rgba(255, 200, 150, 0.4),
-                0 0 120px 35px rgba(255, 180, 120, 0.2);
-        }
-
-        /* Protubérances solaires */
-        .prominence {
-            position: absolute;
-            width: 340px;
-            height: 340px;
-            border-radius: 50%;
-            opacity: 0;
-            animation: prominenceAppear 10s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        .prominence::before,
-        .prominence::after {
-            content: '';
-            position: absolute;
-            background: radial-gradient(ellipse, rgba(255, 150, 100, 0.6) 0%, transparent 70%);
-            filter: blur(8px);
-        }
-
-        .prominence::before {
-            width: 80px;
-            height: 120px;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-5deg);
-        }
-
-        .prominence::after {
-            width: 70px;
-            height: 100px;
-            bottom: -15px;
-            right: 20%;
-            transform: rotate(15deg);
-        }
-
-        /* Rayons de Bailey (perles de Baily) */
-        .bailey-beads {
-            position: absolute;
-            width: 295px;
-            height: 295px;
-            border-radius: 50%;
-            opacity: 0;
-            animation: baileyBeads 10s ease-in-out infinite;
-            z-index: 4;
-        }
-
-        .bead {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #ffffff 0%, rgba(255, 200, 100, 0.8) 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
-        }
-
-        .bead:nth-child(1) { top: 0; left: 50%; animation: beadGlow 0.5s ease-in-out infinite; }
-        .bead:nth-child(2) { top: 10%; right: 20%; animation: beadGlow 0.5s 0.1s ease-in-out infinite; }
-        .bead:nth-child(3) { top: 30%; right: 5%; animation: beadGlow 0.5s 0.2s ease-in-out infinite; }
-
-        /* Chromosphère */
-        .chromosphere {
-            position: absolute;
-            width: 292px;
-            height: 292px;
-            border-radius: 50%;
-            opacity: 0;
-            animation: chromosphereGlow 10s ease-in-out infinite;
-            z-index: 2;
-            box-shadow: 
-                inset 0 0 20px 5px rgba(255, 100, 100, 0.4),
-                0 0 15px 3px rgba(255, 100, 100, 0.3);
-        }
-
-        .text {
-            position: absolute;
-            font-size: 56px;
-            font-weight: 900;
-            color: #ffffff;
-            text-shadow: 
-                0 0 10px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.4),
-                0 0 30px rgba(255, 200, 150, 0.3);
-            letter-spacing: 12px;
-            z-index: 10;
-            animation: textGlowPermanent 2s ease-in-out infinite;
-            mix-blend-mode: screen;
-        }
-
-        .loading-text {
-            position: absolute;
-            bottom: 80px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 3px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        /* Panneau d'information */
-        .info-panel {
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 320px;
-            background: rgba(10, 10, 30, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 25px;
+        /* Cards */
+        .card {
+            background: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            animation: slideIn 1s ease-out;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
-        .info-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-bottom: 2px solid rgba(255, 200, 150, 0.3);
-            padding-bottom: 10px;
-        }
-
-        .info-section {
-            margin-bottom: 20px;
-        }
-
-        .info-label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .info-link {
+        .card-title {
+            font-size: 1.25rem;
+            color: #4ade80;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            flex-direction: column;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            margin-bottom: 10px;
-            text-align: center;
+            gap: 0.5rem;
         }
 
-        .info-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 200, 150, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(255, 200, 150, 0.2);
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        .info-icon {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 8px;
-            flex-shrink: 0;
+        .form-label {
+            display: block;
+            color: #86efac;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
         }
 
-        .discord-icon {
-            fill: #5865F2;
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
         }
 
-        .steam-icon {
-            fill: #1b2838;
+        input[type="text"] {
+            flex: 1;
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #d1fae5;
+            font-size: 0.875rem;
+            transition: all 0.3s;
         }
 
-        .info-link-text {
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4ade80;
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(74, 222, 128, 0.3);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
             font-weight: 600;
-            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
         }
 
-        .info-link-url {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 4px;
-            word-break: break-all;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
 
-        .info-description {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.6;
-            text-align: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: rgb(255, 255, 255);
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50%) translateX(50px);
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+        }
+
+        .btn-secondary {
+            background: #1e40af;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1e3a8a;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-danger:disabled {
+            background: #374151;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-purple {
+            background: #9333ea;
+            color: white;
+        }
+
+        .btn-purple:hover {
+            background: #7e22ce;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn-launch {
+            padding: 1.25rem;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            margin-top: 1rem;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+            accent-color: #22c55e;
+        }
+
+        .checkbox-label {
+            color: #86efac;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Mods List */
+        .mods-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .mods-count {
+            color: rgba(134, 239, 172, 0.7);
+            font-size: 0.875rem;
+        }
+
+        .mods-list {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 0.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .mod-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mod-item:last-child {
+            border-bottom: none;
+        }
+
+        .mod-item:hover {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .mod-item.selected {
+            background: rgba(74, 222, 128, 0.2);
+        }
+
+        .mod-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .mod-details {
+            flex: 1;
+        }
+
+        .mod-name {
+            color: #d1fae5;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .mod-meta {
+            color: rgba(74, 222, 128, 0.6);
+            font-size: 0.75rem;
+        }
+
+        .mod-checkbox {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .check-icon {
+            color: #4ade80;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .mod-item.selected .check-icon {
+            opacity: 1;
+        }
+
+        /* Action Buttons Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+        }
+
+        /* Status */
+        .status-bar {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-text {
+            color: #4ade80;
+            font-size: 0.875rem;
+        }
+
+        /* Scrollbar */
+        .mods-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .mods-list::-webkit-scrollbar-track {
+            background: rgba(17, 24, 39, 0.5);
+            border-radius: 4px;
+        }
+
+        .mods-list::-webkit-scrollbar-thumb {
+            background: rgba(74, 222, 128, 0.3);
+            border-radius: 4px;
+        }
+
+        .mods-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(74, 222, 128, 0.5);
+        }
+
+        /* Icons */
+        .icon {
+            width: 1.125rem;
+            height: 1.125rem;
+            display: inline-block;
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
             }
-            to {
-                opacity: 1;
-                transform: translateY(-50%) translateX(0);
+
+            .action-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        @media (max-width: 1200px) {
-            .info-panel {
-                right: 15px;
-                width: 280px;
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .info-panel {
-                display: none;
-            }
-        }
-
-        .loading-bar {
-            position: absolute;
-            bottom: 50px;
-            width: 350px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-        }
-
-        .loading-progress {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent 0%,
-                rgba(255, 255, 255, 0.4) 20%,
-                rgba(255, 200, 150, 0.8) 50%,
-                rgba(255, 255, 255, 0.4) 80%,
-                transparent 100%);
-            animation: loading 10s ease-in-out infinite;
-            box-shadow: 0 0 8px rgba(255, 200, 150, 0.6);
-        }
-
-        /* Animations */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes solarSurface {
-            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.9; }
-            50% { transform: rotate(180deg) scale(1.01); opacity: 0.95; }
-        }
-
-        @keyframes solarSpots {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-
-        @keyframes coronaAppear {
-            0%, 35% { opacity: 0; }
-            45%, 55% { opacity: 1; }
-            65%, 100% { opacity: 0; }
-        }
-
-        @keyframes prominenceAppear {
-            0%, 40% { opacity: 0; }
-            48%, 52% { opacity: 1; }
-            60%, 100% { opacity: 0; }
-        }
-
-        @keyframes baileyBeads {
-            0%, 43% { opacity: 0; }
-            45%, 47% { opacity: 1; }
-            49%, 100% { opacity: 0; }
-        }
-
-        @keyframes beadGlow {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
-
-        @keyframes chromosphereGlow {
-            0%, 42% { opacity: 0; }
-            46%, 54% { opacity: 0.8; }
-            58%, 100% { opacity: 0; }
-        }
-
-        @keyframes textGlowPermanent {
-            0%, 100% { 
-                text-shadow: 
-                    0 0 10px rgba(0, 0, 0, 0.8),
-                    0 0 20px rgba(255, 255, 255, 0.4),
-                    0 0 30px rgba(255, 200, 150, 0.3);
-            }
-            50% { 
-                text-shadow: 
-                    0 0 15px rgba(0, 0, 0, 0.9),
-                    0 0 30px rgba(255, 255, 255, 0.6),
-                    0 0 45px rgba(255, 200, 150, 0.5);
-            }
-        }
-
-        @keyframes loading {
-            0% { width: 0%; transform: translateX(0); }
-            100% { width: 100%; transform: translateX(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
         }
     </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    
-    <div class="eclipse-container">
-        <div class="prominence"></div>
-        <div class="corona"></div>
-        <div class="chromosphere"></div>
-        <div class="sun"></div>
-        <div class="bailey-beads">
-            <div class="bead"></div>
-            <div class="bead"></div>
-            <div class="bead"></div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <span class="emoji">⛏️</span>
+                <h1>Minecraft Launcher</h1>
+            </div>
+            <p class="header-subtitle">Auto-Update Mods</p>
         </div>
-        <div class="text">ECLIPSE</div>
+
+        <!-- Configuration Card -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="emoji">⚙️</span>
+                Configuration
+            </h2>
+
+            <div class="form-group">
+                <label class="form-label">Dossier Minecraft</label>
+                <div class="input-group">
+                    <input type="text" id="minecraftPath" placeholder="C:/Users/YourName/AppData/Roaming/.minecraft">
+                    <button class="btn btn-primary" onclick="browsePath()">
+                        📁 Parcourir
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label class="form-label">RAM Minimum</label>
+                    <input type="text" id="ramMin" value="2G">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">RAM Maximum</label>
+                    <input type="text" id="ramMax" value="4G">
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="autoSync" checked>
+                <label for="autoSync" class="checkbox-label">Synchronisation automatique des mods</label>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="saveConfig()">
+                💾 Sauvegarder Config
+            </button>
+        </div>
+
+        <!-- Mods Management Card -->
+        <div class="card">
+            <div class="mods-header">
+                <h2 class="card-title">
+                    <span class="emoji">📦</span>
+                    Gestion des Mods
+                </h2>
+                <span class="mods-count" id="modsCount">0 mod(s) dans le repository</span>
+            </div>
+
+            <!-- Mods List -->
+            <div class="mods-list" id="modsList">
+                <!-- Mods will be loaded here dynamically -->
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-grid">
+                <button class="btn btn-secondary" onclick="addMod()">
+                    ➕ Ajouter
+                </button>
+                <button class="btn btn-danger" id="removeBtn" onclick="removeMod()" disabled>
+                    🗑️ Retirer
+                </button>
+                <button class="btn btn-purple" onclick="refreshMods()">
+                    🔄 Rafraîchir
+                </button>
+                <button class="btn btn-primary" onclick="checkUpdates()">
+                    📥 Vérifier MAJ
+                </button>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span class="emoji">✅</span>
+                <span class="status-text" id="statusText">Prêt</span>
+            </div>
+        </div>
+
+        <!-- Launch Button -->
+        <button class="btn btn-primary btn-full btn-launch" onclick="launchMinecraft()">
+            🚀 LANCER MINECRAFT
+        </button>
     </div>
 
-    <div class="loading-text">CHARGEMENT...</div>
-    <div class="loading-bar">
-        <div class="loading-progress"></div>
-    </div>
-
-    <!-- Panneau d'information -->
-    <div class="info-panel">
-        <div class="info-title">Eclipse</div>
-        
-        <div class="info-section">
-            <div class="info-label">Rejoignez-nous</div>
-            <a href="https://discord.gg/TBTjCED7aK" target="_blank" class="info-link">
-                <svg class="info-icon discord-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
-                </svg>
-                <div class="info-link-text">Discord</div>
-                <div class="info-link-url">discord.gg/TBTjCED7aK</div>
-            </a>
-        </div>
-
-        <div class="info-section">
-            <div class="info-label">Collection Steam</div>
-            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3436364067" target="_blank" class="info-link">
-                <svg class="info-icon steam-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12c0 4.98 3.66 9.11 8.44 9.88v-3.53c-.84.17-1.71-.24-2.09-.95c-.18-.33-.28-.7-.28-1.08c0-1.19.97-2.16 2.16-2.16c.38 0 .75.1 1.08.28c.71.38 1.12 1.25.95 2.09v3.53C17.34 21.11 22 16.98 22 12c0-5.52-4.48-10-10-10zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5s2.01-4.5 4.5-4.5s4.5 2.01 4.5 4.5s-2.01 4.5-4.5 4.5z"/>
-                    <circle cx="12" cy="12" r="2.5"/>
-                </svg>
-                <div class="info-link-text">Workshop</div>
-                <div class="info-link-url">steamcommunity.com/.../3436364067</div>
-            </a>
-        </div>
-
-        <div class="info-description">
-            Découvrez notre collection complète et rejoignez la communauté !
-        </div>
-    </div>
-
+    <script type="text/javascript" src="/eel.js"></script>
     <script>
-        // Génération des étoiles
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 200; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            const size = Math.random() * 2;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            starsContainer.appendChild(star);
+        let selectedMods = new Set();
+        let mods = [];
+
+        // Load configuration
+        async function loadConfig() {
+            try {
+                const config = await eel.get_config()();
+                document.getElementById('minecraftPath').value = config.minecraft_dir || '';
+                document.getElementById('ramMin').value = config.ram_min || '2G';
+                document.getElementById('ramMax').value = config.ram_max || '4G';
+                document.getElementById('autoSync').checked = config.auto_sync !== false;
+            } catch(err) {
+                console.error('Error loading config:', err);
+            }
         }
+
+        // Save configuration
+        async function saveConfig() {
+            const config = {
+                minecraft_dir: document.getElementById('minecraftPath').value,
+                ram_min: document.getElementById('ramMin').value,
+                ram_max: document.getElementById('ramMax').value,
+                auto_sync: document.getElementById('autoSync').checked
+            };
+
+            try {
+                const data = await eel.update_config(config)();
+                updateStatus('✅ Configuration sauvegardee!', '#4ade80');
+            } catch(err) {
+                updateStatus('❌ Erreur lors de la sauvegarde', '#dc2626');
+            }
+        }
+
+        // Load mods
+        async function loadMods() {
+            try {
+                const data = await eel.get_mods()();
+                mods = data.mods || [];
+                renderMods();
+                updateModsCount();
+            } catch(err) {
+                console.error('Error loading mods:', err);
+            }
+        }
+
+        // Render mods list
+        function renderMods() {
+            const modsList = document.getElementById('modsList');
+            modsList.innerHTML = '';
+
+            mods.forEach((mod, index) => {
+                const modItem = document.createElement('div');
+                modItem.className = 'mod-item' + (selectedMods.has(mod.name) ? ' selected' : '');
+                modItem.onclick = () => toggleMod(mod.name);
+
+                modItem.innerHTML = `
+                    <div class="mod-info">
+                        <input type="checkbox" class="mod-checkbox" ${selectedMods.has(mod.name) ? 'checked' : ''} onclick="event.stopPropagation()">
+                        <div class="mod-details">
+                            <div class="mod-name">${mod.name}</div>
+                            <div class="mod-meta">${mod.size}</div>
+                        </div>
+                    </div>
+                    <span class="check-icon">✓</span>
+                `;
+
+                modsList.appendChild(modItem);
+            });
+        }
+
+        // Toggle mod selection
+        function toggleMod(modName) {
+            if (selectedMods.has(modName)) {
+                selectedMods.delete(modName);
+            } else {
+                selectedMods.add(modName);
+            }
+            renderMods();
+            updateRemoveButton();
+        }
+
+        // Update mods count
+        function updateModsCount() {
+            document.getElementById('modsCount').textContent = `${mods.length} mod(s) dans le repository`;
+        }
+
+        // Update remove button state
+        function updateRemoveButton() {
+            document.getElementById('removeBtn').disabled = selectedMods.size === 0;
+        }
+
+        // Update status
+        function updateStatus(message, color = '#4ade80') {
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = message;
+            statusText.style.color = color;
+        }
+
+        // Browse path
+        function browsePath() {
+            fetch('/api/browse')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.path) {
+                        document.getElementById('minecraftPath').value = data.path;
+                    }
+                })
+                .catch(err => console.error('Error browsing path:', err));
+        }
+
+        // Add mod
+        function addMod() {
+            fetch('/api/add-mod', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    updateStatus('✅ Mod(s) ajouté(s)!', '#4ade80');
+                    refreshMods();
+                })
+                .catch(err => {
+                    updateStatus('❌ Erreur lors de l\'ajout', '#dc2626');
+                });
+        }
+
+        // Remove mod
+        function removeMod() {
+            if (selectedMods.size === 0) return;
+
+            fetch('/api/remove-mod', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mods: Array.from(selectedMods) })
+            })
+            .then(res => res.json())
+            .then(data => {
+                updateStatus('✅ Mod(s) retiré(s)!', '#4ade80');
+                selectedMods.clear();
+                refreshMods();
+            })
+            .catch(err => {
+                updateStatus('❌ Erreur lors de la suppression', '#dc2626');
+            });
+        }
+
+        // Refresh mods
+        function refreshMods() {
+            updateStatus('🔄 Rafraîchissement...', '#fbbf24');
+            loadMods();
+        }
+
+        // Check updates
+        function checkUpdates() {
+            updateStatus('🔍 Vérification des mises à jour...', '#fbbf24');
+            fetch('/api/check-updates', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    updateStatus(data.message || '✅ Vérification terminée', '#4ade80');
+                    loadMods();
+                })
+                .catch(err => {
+                    updateStatus('❌ Erreur lors de la vérification', '#dc2626');
+                });
+        }
+
+        // Launch Minecraft
+        function launchMinecraft() {
+            updateStatus('🚀 Lancement de Minecraft...', '#fbbf24');
+            fetch('/api/launch', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    updateStatus('✅ Minecraft lancé!', '#4ade80');
+                })
+                .catch(err => {
+                    updateStatus('❌ Erreur lors du lancement', '#dc2626');
+                });
+        }
+
+        // Initialize
+        window.onload = function() {
+            loadConfig();
+            loadMods();
+        };
     </script>
 </body>
 </html>

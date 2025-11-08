@@ -1,0 +1,12 @@
+flask==3.0.0
+flask-cors==4.0.0
+pywebview==5.3.1
+
+# Bibliothèques standard Python (incluses):
+# - tkinter (inclus avec Python)
+# - json
+# - hashlib
+# - subprocess
+# - pathlib
+# - shutil
+# - datetime

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chargement</title>
+    <title>Site-32 - Chargement</title>
     <style>
         * {
             margin: 0;
@@ -12,227 +12,409 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #002395 0%, #FFFFFF 50%, #ED2939 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
             overflow: hidden;
         }
 
-        .background-animation {
-            position: absolute;
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+            z-index: 1;
         }
 
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: float 15s infinite ease-in-out;
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+            z-index: 1;
         }
 
-        .circle:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 10%;
-            left: 20%;
-            animation-delay: 0s;
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
         }
 
-        .circle:nth-child(2) {
+        .header {
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
             width: 120px;
             height: 120px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-        }
-
-        .circle:nth-child(3) {
-            width: 100px;
-            height: 100px;
-            top: 80%;
-            left: 10%;
-            animation-delay: 4s;
-        }
-
-        .circle:nth-child(4) {
-            width: 60px;
-            height: 60px;
-            top: 30%;
-            left: 70%;
-            animation-delay: 1s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-30px) translateX(20px);
-            }
-            50% {
-                transform: translateY(-60px) translateX(-20px);
-            }
-            75% {
-                transform: translateY(-30px) translateX(30px);
-            }
-        }
-
-        .loading-container {
-            position: relative;
-            text-align: center;
-            z-index: 10;
-            background: rgba(0, 35, 149, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 60px 80px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .spinner {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 30px;
-            position: relative;
-        }
-
-        .spinner-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 4px solid transparent;
-            border-top-color: #fff;
+            background: linear-gradient(135deg, #000 0%, #fff 100%);
+            border: 4px solid #fff;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #000;
+            box-shadow: 
+                0 0 40px rgba(255, 255, 255, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: pulse 3s infinite;
+            position: relative;
         }
 
-        .spinner-ring:nth-child(2) {
-            width: 90%;
-            height: 90%;
-            top: 5%;
-            left: 5%;
-            border-top-color: rgba(255, 255, 255, 0.6);
-            animation-delay: 0.1s;
-        }
-
-        .spinner-ring:nth-child(3) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            border-top-color: rgba(255, 255, 255, 0.3);
-            animation-delay: 0.2s;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        h1 {
+        .logo-icon::before {
+            content: 'SCP';
+            position: absolute;
+            font-size: 28px;
+            font-weight: bold;
             color: #fff;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.8),
+                2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.4), inset 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+            50% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 60px rgba(255, 255, 255, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .logo-text {
+            text-align: left;
+        }
+
+        .logo-text h1 {
+            font-size: 56px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff 0%, #999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .logo-text .site-number {
+            font-size: 64px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.6),
+                0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: #999;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .warning-box {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-left: 4px solid #fff;
+            border-right: 4px solid #000;
+            padding: 15px 20px;
+            margin: 30px auto;
+            max-width: 700px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .warning-box strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .info-panels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.5) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-icon {
             font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .panel h3 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .panel p {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .loading-section {
+            width: 100%;
+            max-width: 800px;
         }
 
         .loading-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .progress-bar {
-            width: 300px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #002395, #FFFFFF, #ED2939);
-            border-radius: 10px;
-            animation: progress 2s ease-in-out infinite;
-        }
-
-        @keyframes progress {
-            0% {
-                width: 0%;
-            }
-            50% {
-                width: 70%;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
-        .dots {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 16px;
             color: #fff;
-            font-size: 24px;
-            margin-top: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        .dots span {
-            animation: blink 1.4s infinite;
+        .loading-bar-container {
+            background: #000;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        .dots span:nth-child(2) {
-            animation-delay: 0.2s;
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #000, #666, #fff);
+            width: 0%;
+            animation: loading 4s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+            position: relative;
         }
 
-        .dots span:nth-child(3) {
-            animation-delay: 0.4s;
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        @keyframes blink {
-            0%, 20% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
+        @keyframes loading {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 100%; }
         }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        .footer {
+            text-align: center;
+        }
+
+        .rules {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.8) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .rules h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .rules ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .rules li {
+            font-size: 13px;
+            color: #ccc;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .rules li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+
+
+
     </style>
 </head>
 <body>
-    <div class="background-animation">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
+    <div class="bg-overlay"></div>
+    <div class="bg-pattern"></div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <h1>SCP FOUNDATION</h1>
+                    <div class="site-number">SITE-32</div>
+                    <p>Secure • Contain • Protect</p>
+                </div>
+            </div>
+            <div class="warning-box">
+                <strong>⚠ ATTENTION PERSONNEL AUTORISÉ UNIQUEMENT</strong>
+                Toute tentative d'accès non autorisé sera signalée et sanctionnée.
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="info-panels">
+                <div class="panel">
+                    <div class="panel-icon">🔒</div>
+                    <h3>CONFINEMENT</h3>
+                    <p>Maintenez tous les SCP dans leurs cellules de confinement désignées</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-icon">👥</div>
+                    <h3>ROLEPLAY</h3>
+                    <p>Respectez votre rôle et suivez la hiérarchie de la Fondation</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-icon">📋</div>
+                    <h3>PROTOCOLES</h3>
+                    <p>Suivez les procédures d'urgence en cas de brèche de confinement</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-icon">👑</div>
+                    <h3>FONDATEURS</h3>
+                    <p>Draco_TvE • Alyx</p>
+                </div>
+            </div>
+
+            <div class="loading-section">
+                <div class="loading-text" id="loadingText">Connexion au Site-32 en cours...</div>
+                <div class="loading-bar-container">
+                    <div class="loading-bar"></div>
+                    <div class="loading-percent" id="percent">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="rules">
+                <h3>📜 RÈGLES DU SERVEUR</h3>
+                <ul>
+                    <li>Pas de RDM/RDA</li>
+                    <li>Respectez le RP à tout moment</li>
+                    <li>Pas de metagaming</li>
+                    <li>Suivez les ordres de vos supérieurs</li>
+                    <li>Pas de freekill</li>
+                    <li>Respectez les autres joueurs</li>
+                    <li>Pas de prop kill/block</li>
+                    <li>Utilisez le micro de manière appropriée</li>
+                </ul>
+            </div>
+
+        </div>
     </div>
 
-    <div class="loading-container">
-        <div class="spinner">
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-        </div>
-        <h1>Chargement en cours</h1>
-        <p class="loading-text">Récupération des données</p>
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-        <div class="dots">
-            <span>.</span><span>.</span><span>.</span>
-        </div>
-    </div>
+    <script>
+        const loadingMessages = [
+            "Connexion au Site-32 en cours...",
+            "Authentification des identifiants...",
+            "Vérification de l'accréditation de sécurité...",
+            "Téléchargement des ressources du serveur...",
+            "Chargement de la carte du Site-32...",
+            "Synchronisation des données de confinement...",
+            "Initialisation des protocoles de sécurité...",
+            "Préparation de l'environnement RP...",
+            "Finalisation de la connexion..."
+        ];
+        
+        let messageIndex = 0;
+        let progress = 0;
+        const loadingText = document.getElementById('loadingText');
+        const percentText = document.getElementById('percent');
+        
+        setInterval(() => {
+            messageIndex = (messageIndex + 1) % loadingMessages.length;
+            loadingText.textContent = loadingMessages[messageIndex];
+        }, 2500);
+        
+        setInterval(() => {
+            progress = (progress + 1) % 101;
+            percentText.textContent = progress + '%';
+        }, 40);
+        
+
+    </script>
 </body>
 </html>

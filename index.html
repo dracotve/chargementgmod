@@ -1,410 +1,420 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Pixel Art Game - The Riddle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site-32 - Chargement</title>
     <style>
-        body {
+        * {
             margin: 0;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        canvas {
-            border: 2px solid white;
-            image-rendering: pixelated;
-            display: none;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
-            z-index: 30;
         }
 
-        #loading-overlay {
-            background: url('https://i.imgur.com/5Xn347S.png') no-repeat center center / cover;
-            z-index: 100;
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
         }
 
-        .loader-text {
-            font-size: 2em;
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border: 2px solid white;
-        }
-
-        #story-text, #space-riddle-text {
-            line-height: 1.6;
-            max-width: 700px;
-            white-space: pre-line;
-            font-size: 1.2em;
-        }
-
-        #game-over-text {
-            font-size: 4em;
-            color: red;
-            font-weight: bold;
-            display: none;
-        }
-
-        #main-menu {
-            position: absolute;
+        .bg-overlay {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://i.imgur.com/nqK5nxv.png') no-repeat center center / cover;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+            z-index: 1;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
             align-items: center;
-            z-index: 20;
-            padding: 50px;
-            box-sizing: border-box;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
         }
 
-        .btn {
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: 2px solid white;
-            padding: 15px 30px;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.1em;
-            transition: 0.3s;
-            margin: 10px;
+        .logo-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #000 0%, #fff 100%);
+            border: 4px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #000;
+            box-shadow: 
+                0 0 40px rgba(255, 255, 255, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: pulse 3s infinite;
+            position: relative;
         }
 
-        .btn:hover { background: white; color: black; }
-
-        #choices-container, #space-choices { display: none; margin-top: 20px; gap: 10px; }
-
-        #admin-tools {
+        .logo-icon::before {
+            content: 'SCP';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            display: none;
-            z-index: 40;
-            flex-direction: column;
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.8),
+                2px 2px 4px rgba(0, 0, 0, 0.6);
         }
-        
-        .admin-btn {
-            padding: 8px;
-            font-size: 0.7em;
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.4), inset 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+            50% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 60px rgba(255, 255, 255, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .logo-text {
+            text-align: left;
+        }
+
+        .logo-text h1 {
+            font-size: 56px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff 0%, #999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
             margin-bottom: 5px;
-            background: rgba(255, 0, 0, 0.5);
-            border: 1px solid white;
-            color: white;
-            cursor: pointer;
+            letter-spacing: 2px;
         }
+
+        .logo-text .site-number {
+            font-size: 64px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.6),
+                0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: #999;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .warning-box {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-left: 4px solid #fff;
+            border-right: 4px solid #000;
+            padding: 15px 20px;
+            margin: 30px auto;
+            max-width: 700px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .warning-box strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .info-panels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.5) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .panel h3 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .panel p {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .loading-section {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .loading-text {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .loading-bar-container {
+            background: #000;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #000, #666, #fff);
+            width: 0%;
+            animation: loading 4s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+            position: relative;
+        }
+
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        .footer {
+            text-align: center;
+        }
+
+        .rules {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.8) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .rules h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .rules ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .rules li {
+            font-size: 13px;
+            color: #ccc;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .rules li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+
+
+
     </style>
 </head>
 <body>
+    <div class="bg-overlay"></div>
+    <div class="bg-pattern"></div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <h1>SCP FOUNDATION</h1>
+                    <div class="site-number">SITE-32</div>
+                    <p>Secure • Contain • Protect</p>
+                </div>
+            </div>
+            <div class="warning-box">
+                <strong>⚠ ATTENTION PERSONNEL AUTORISÉ UNIQUEMENT</strong>
+                Toute tentative d'accès non autorisé sera signalée et sanctionnée.
+            </div>
+        </div>
 
-<div id="main-menu">
-    <h1 style="font-size: 3.5em; text-shadow: 3px 3px 10px black;">THE CAR CAN CHANGE YOUR LIFE</h1>
-    <div style="display: flex; gap: 20px; align-self: flex-end;">
-        <button id="credits-btn" class="btn">CREDITS</button>
-        <button id="play-button" class="btn">PLAY</button>
+        <div class="content">
+            <div class="info-panels">
+                <div class="panel">
+                    <div class="panel-icon">🔒</div>
+                    <h3>CONFINEMENT</h3>
+                    <p>Maintenez tous les SCP dans leurs cellules de confinement désignées</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-icon">👥</div>
+                    <h3>ROLEPLAY</h3>
+                    <p>Respectez votre rôle et suivez la hiérarchie de la Fondation</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-icon">📋</div>
+                    <h3>PROTOCOLES</h3>
+                    <p>Suivez les procédures d'urgence en cas de brèche de confinement</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-icon">👑</div>
+                    <h3>FONDATEURS</h3>
+                    <p>Draco_tve • alexlebg2.0</p>
+                </div>
+            </div>
+
+            <div class="loading-section">
+                <div class="loading-text" id="loadingText">Connexion au Site-32 en cours...</div>
+                <div class="loading-bar-container">
+                    <div class="loading-bar"></div>
+                    <div class="loading-percent" id="percent">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="rules">
+                <h3>📜 RÈGLES DU SERVEUR</h3>
+                <ul>
+                    <li>Pas de RDM/RDA</li>
+                    <li>Respectez le RP à tout moment</li>
+                    <li>Pas de metagaming</li>
+                    <li>Suivez les ordres de vos supérieurs</li>
+                    <li>Pas de freekill</li>
+                    <li>Respectez les autres joueurs</li>
+                    <li>Pas de prop kill/block</li>
+                    <li>Utilisez le micro de manière appropriée</li>
+                </ul>
+            </div>
+
+        </div>
     </div>
-</div>
 
-<div id="loading-overlay" class="overlay">
-    <div class="loader-text" id="loader-msg">LOADING IN PROGRESS...</div>
-</div>
-
-<div id="credits-overlay" class="overlay">
-    <h1>CREDITS</h1>
-    <p>GUERIN Alexis<br>JEAND'HEUR Liam<br>BEUGRE - - MARBOUA Hinno-Jhunior<br>GALLOIS Nolan</p>
-    <button id="close-credits" class="btn">BACK</button>
-</div>
-
-<div id="story-overlay" class="overlay">
-    <p id="story-text"></p>
-    <button id="start-game-button" class="btn">START ADVENTURE</button>
-    <div id="choices-container">
-        <button class="btn choice-btn" data-city="EVERGLADES">EVERGLADES</button>
-        <button class="btn choice-btn" data-city="KENNEDY SPACE CENTER">KENNEDY SPACE CENTER</button>
-        <button class="btn choice-btn" data-city="JACKSONVILLE">JACKSONVILLE</button>
-    </div>
-</div>
-
-<div id="space-riddle-overlay" class="overlay" style="background: black; z-index: 50;">
-    <p id="space-riddle-text"></p>
-    <div id="space-choices">
-        <button class="btn space-choice-btn" data-answer="JACKSONVILLE">JACKSONVILLE</button>
-        <button class="btn space-choice-btn" data-answer="MIAMI">MIAMI</button>
-        <button class="btn space-choice-btn" data-answer="TAMPA">TAMPA</button>
-    </div>
-</div>
-
-<div id="game-over-overlay" class="overlay" style="background: black;">
-    <p id="wrong-road-msg" style="font-size: 1.5em; color: white;"></p>
-    <h2 id="game-over-text">GAME OVER</h2>
-</div>
-
-<div id="admin-tools">
-    <button id="cheat-btn" class="admin-btn">CHEAT: +1000 MILES</button>
-    <button id="skip-to-riddle" class="admin-btn">SKIP TO RIDDLE</button>
-</div>
-
-<canvas id="game" width="800" height="450"></canvas>
-
-<script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-const mainMenu = document.getElementById("main-menu");
-const loadingOverlay = document.getElementById("loading-overlay");
-const loaderMsg = document.getElementById("loader-msg");
-const storyOverlay = document.getElementById("story-overlay");
-const storyText = document.getElementById("story-text");
-const choicesContainer = document.getElementById("choices-container");
-const adminTools = document.getElementById("admin-tools");
-const gameOverOverlay = document.getElementById("game-over-overlay");
-const gameOverText = document.getElementById("game-over-text");
-const wrongRoadMsg = document.getElementById("wrong-road-msg");
-const spaceOverlay = document.getElementById("space-riddle-overlay");
-const spaceText = document.getElementById("space-riddle-text");
-const spaceChoices = document.getElementById("space-choices");
-
-// === ASSETS ===
-const background = new Image(); background.src = "https://i.imgur.com/1iPHzZk.png";
-const evergladesBg = "https://i.imgur.com/lmv1lGB.png"; 
-const kennedyBg = "https://i.imgur.com/jXkox1h.png"; 
-const jacksonvilleBg = "https://i.imgur.com/WJNGXmW.png";
-const tampaBg = "https://i.imgur.com/TQoi5jU.png";
-const miamiBg = "https://i.imgur.com/1iPHzZk.png";
-const playerIdle = new Image(); playerIdle.src = "https://i.imgur.com/SvsfsiA.png";
-const playerWalk = new Image(); playerWalk.src = "https://i.imgur.com/0eb0KYR.png";
-const carImg = new Image(); carImg.src = "https://i.imgur.com/y7EmwQ0.png";
-const bushImg = new Image(); bushImg.src = "https://i.imgur.com/krm21gr.png";
-
-// === GAME STATE ===
-let player = { x: 150, y: 370, targetX: 150, targetY: 370, speed: 2.5, moving: false, inCar: false };
-let car = { x: 500, y: 260, width: 124, height: 134, speed: 6 };
-let cameraX = 0;
-let gameEnded = false;
-let isLoading = false;
-let selectedCity = "";
-
-// --- LOGIQUE BOUTONS ---
-document.getElementById("play-button").onclick = () => {
-    mainMenu.style.display = "none";
-    loaderMsg.innerText = "LOADING IN PROGRESS...";
-    loadingOverlay.style.display = "flex";
-    setTimeout(() => {
-        loadingOverlay.style.display = "none";
-        storyOverlay.style.display = "flex";
-        storyText.innerText = `Your father organized a treasure hunt for you with a big surprise. For this, he gave you a simple rule: you have a paper in your mailbox, you read it once 1000 mile from your starting point. You will soon know where you have to start because a red car is waiting for you.`;
-    }, 5000);
-};
-
-document.getElementById("start-game-button").onclick = () => {
-    storyOverlay.style.display = "none";
-    canvas.style.display = "block";
-    adminTools.style.display = "flex";
-    gameLoop();
-};
-
-document.getElementById("cheat-btn").onclick = () => { 
-    player.x += 20005; 
-    player.targetX = player.x; 
-};
-
-document.getElementById("skip-to-riddle").onclick = () => {
-    selectedCity = "EVERGLADES";
-    player.x = 20005;
-    player.targetX = 20005;
-};
-
-function triggerEnding() {
-    gameEnded = true;
-    adminTools.style.display = "none";
-    storyOverlay.style.display = "flex";
-    document.getElementById("start-game-button").style.display = "none";
-    storyText.innerText = "You open the glove box and find a paper and you decide to read it.......";
-    setTimeout(() => {
-        storyText.innerText = `Look like water attraction, you can see trees on this place, this place is more bigger than Boca Grande. There is a beautiful view when you are in the water attraction. You can see animals like bird and fishes. On the water they are waterlillies. Can you find me? Where I am ?`;
-        choicesContainer.style.display = "flex";
-    }, 3000);
-}
-
-document.querySelectorAll(".choice-btn").forEach(btn => {
-    btn.onclick = (e) => {
-        selectedCity = e.target.getAttribute("data-city");
-        choicesContainer.style.display = "none";
-        storyOverlay.style.display = "none";
+    <script>
+        const loadingMessages = [
+            "Connexion au Site-32 en cours...",
+            "Authentification des identifiants...",
+            "Vérification de l'accréditation de sécurité...",
+            "Téléchargement des ressources du serveur...",
+            "Chargement de la carte du Site-32...",
+            "Synchronisation des données de confinement...",
+            "Initialisation des protocoles de sécurité...",
+            "Préparation de l'environnement RP...",
+            "Finalisation de la connexion..."
+        ];
         
-        loaderMsg.innerText = "ON THE WAY TO " + selectedCity + "...";
-        loadingOverlay.style.display = "flex";
-        isLoading = true;
+        let messageIndex = 0;
+        let progress = 0;
+        const loadingText = document.getElementById('loadingText');
+        const percentText = document.getElementById('percent');
         
-        setTimeout(() => {
-            loadingOverlay.style.display = "none";
-            isLoading = false;
-            gameEnded = false;
-            car.x = 100; car.y = 260;
-            player.x = car.x + 60; player.y = car.y + 60;
-            player.targetX = player.x; player.targetY = player.y;
-            player.inCar = true;
-            cameraX = 0;
-
-            if (selectedCity === "EVERGLADES") background.src = evergladesBg;
-            else if (selectedCity === "KENNEDY SPACE CENTER") background.src = kennedyBg;
-            else if (selectedCity === "JACKSONVILLE") background.src = jacksonvilleBg;
-            
-            adminTools.style.display = "flex";
-        }, 5000); 
-    };
-});
-
-document.querySelectorAll(".space-choice-btn").forEach(btn => {
-    btn.onclick = (e) => {
-        const choice = e.target.getAttribute("data-answer");
-        spaceOverlay.style.display = "none";
+        setInterval(() => {
+            messageIndex = (messageIndex + 1) % loadingMessages.length;
+            loadingText.textContent = loadingMessages[messageIndex];
+        }, 2500);
         
-        loaderMsg.innerText = "ON THE WAY TO " + choice + "...";
-        loadingOverlay.style.display = "flex";
-        isLoading = true;
+        setInterval(() => {
+            progress = (progress + 1) % 101;
+            percentText.textContent = progress + '%';
+        }, 40);
+        
 
-        setTimeout(() => {
-            loadingOverlay.style.display = "none";
-            isLoading = false;
-            gameEnded = false;
-            player.x = 100; player.targetX = 100; cameraX = 0;
-            car.x = 50; car.y = 260;
-
-            if (choice === "MIAMI") {
-                selectedCity = "MIAMI";
-                background.src = miamiBg;
-            } else if (choice === "JACKSONVILLE") {
-                selectedCity = "JACKSONVILLE";
-                background.src = jacksonvilleBg;
-            } else if (choice === "TAMPA") {
-                selectedCity = "TAMPA";
-                background.src = tampaBg;
-            }
-        }, 5000);
-    };
-});
-
-function handleGameOver(msg) {
-    gameEnded = true;
-    adminTools.style.display = "none";
-    wrongRoadMsg.innerText = msg;
-    gameOverOverlay.style.display = "flex";
-    setTimeout(() => {
-        gameOverText.style.display = "block";
-        setTimeout(() => { location.reload(); }, 5000);
-    }, 3000);
-}
-
-function update() {
-    if (isLoading || gameEnded) return;
-
-    if (!player.inCar) {
-        let dx = player.targetX - player.x;
-        let dy = player.targetY - player.y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist > 2) {
-            player.x += (dx/dist) * player.speed;
-            player.y += (dy/dist) * player.speed;
-            player.moving = true;
-        } else {
-            player.moving = false;
-            if (Math.abs(player.x - (car.x + 60)) < 30) player.inCar = true;
-        }
-    } else {
-        let dx = (player.targetX - 60) - car.x;
-        let dy = (player.targetY - 60) - car.y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist > 5) {
-            car.x += (dx/dist) * car.speed;
-            car.y += (dy/dist) * car.speed;
-        }
-        player.x = car.x + 60; player.y = car.y + 60;
-    }
-
-    cameraX += (player.x - 400 - cameraX) * 0.1;
-    let currentMiles = Math.floor(player.x / 20);
-
-    // --- LOGIQUE DE PROGRESSION ET DÉFAITE ---
-    
-    if (selectedCity === "" && currentMiles >= 1000) triggerEnding();
-
-    if (selectedCity === "EVERGLADES" && currentMiles >= 1000) {
-        gameEnded = true;
-        spaceOverlay.style.display = "flex";
-        spaceText.innerText = `You need to go on the most popular museum based on the space history. This place is popular like Disneyland.\n\nOnce the protagonist came here with his dad when he was a kid in this space station. He saw his dad hiding a broken map in a strange box.\n\nCan you find it ?`;
-        spaceChoices.style.display = "flex";
-    }
-
-    // GESTION DES MAUVAISES ROUTES (40 MILES)
-    const deadEnds = ["KENNEDY SPACE CENTER", "JACKSONVILLE", "TAMPA", "MIAMI"];
-    if (currentMiles >= 40 && deadEnds.includes(selectedCity)) {
-        handleGameOver("You haven't found any other clues here.");
-    }
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (isLoading) return;
-
-    ctx.save();
-    ctx.translate(-cameraX, 0);
-
-    for (let i = -1; i <= 100; i++) {
-        ctx.drawImage(background, i * 800, 0, 800, 450);
-    }
-    
-    if (selectedCity === "") {
-        for (let j = 1; j <= 20; j++) ctx.drawImage(bushImg, j * 1000, 250, 120, 120);
-    }
-
-    ctx.drawImage(carImg, car.x, car.y, car.width, car.height);
-    if (!player.inCar) ctx.drawImage(player.moving ? playerWalk : playerIdle, player.x - 16, player.y - 16, 32, 32);
-    ctx.restore();
-
-    ctx.textAlign = "left";
-    ctx.fillStyle = "rgba(0,0,0,0.7)"; ctx.fillRect(10, 10, 200, 30);
-    ctx.fillStyle = "white"; ctx.font = "14px Arial";
-    ctx.fillText(`Distance: ${Math.floor(player.x / 20)} miles`, 20, 30);
-}
-
-function gameLoop() {
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-}
-
-canvas.addEventListener("click", (e) => {
-    if (gameEnded || isLoading) return;
-    const rect = canvas.getBoundingClientRect();
-    player.targetX = e.clientX - rect.left + cameraX;
-    let y = e.clientY - rect.top;
-    player.targetY = Math.max(305, Math.min(370, y));
-});
-
-document.getElementById("credits-btn").onclick = () => document.getElementById("credits-overlay").style.display = "flex";
-document.getElementById("close-credits").onclick = () => document.getElementById("credits-overlay").style.display = "none";
-</script>
+    </script>
 </body>
 </html>

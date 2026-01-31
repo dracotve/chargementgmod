@@ -55,7 +55,34 @@
             z-index: 2;
         }
 
-        /* Zone en haut à droite */
+        /* Zone Fondateurs (Haut Gauche) */
+        .founders-zone {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            z-index: 3;
+            color: white;
+            border-left: 3px solid #fff;
+            padding-left: 15px;
+        }
+
+        .founders-title {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 5px;
+        }
+
+        .founders-names {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Zone Site (Haut Droite) */
         .header-info {
             position: absolute;
             top: 40px;
@@ -85,7 +112,33 @@
             line-height: 1.4;
         }
 
-        /* Zone de messages en bas */
+        /* Horloge et Date */
+        #datetime-container {
+            position: absolute;
+            bottom: 14%;
+            left: 50px;
+            z-index: 3;
+            color: rgba(255, 255, 255, 0.9);
+            font-variant-numeric: tabular-nums;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        #time {
+            font-size: 48px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: -5px;
+        }
+
+        #date {
+            font-size: 18px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Zone de messages */
         #message-container {
             position: absolute;
             bottom: 8%;
@@ -123,6 +176,11 @@
 
     <div class="overlay"></div>
 
+    <div class="founders-zone">
+        <div class="founders-title">Direction du Complexe</div>
+        <div class="founders-names">draco_tve & alex</div>
+    </div>
+
     <div class="header-info">
         <div id="site-name">SITE-32</div>
         <div class="community-tip">Prends des photos en jeu et poste-les sur le Discord pour apparaître dans le prochain chargement !</div>
@@ -134,9 +192,15 @@
         <img src="https://i.imgur.com/CwDdbB6.jpeg" alt="3">
     </div>
 
+    <div id="datetime-container">
+        <span id="time">00:00:00</span>
+        <span id="date">Chargement...</span>
+    </div>
+
     <div id="message-container">Initialisation...</div>
 
     <script>
+        // --- MESSAGES ---
         const loadingMessages = [
             'Préparation du serveur',
             'Chargement des ressources',
@@ -156,8 +220,21 @@
                 container.style.opacity = 1;
             }, 600);
         }
-
         setInterval(updateMessage, 4000);
+
+        // --- HORLOGE ---
+        function updateDateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('fr-FR', options);
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
     </script>
 
 </body>

@@ -55,6 +55,43 @@
             z-index: 2;
         }
 
+        /* --- NOUVEAU : Message de Maintenance --- */
+        .maintenance-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+            pointer-events: none; /* Laisse passer les clics si besoin */
+        }
+
+        .maintenance-title {
+            color: #ff3e3e; /* Rouge pour l'alerte */
+            font-size: 72px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 62, 62, 0.6), 4px 4px 10px rgba(0,0,0,1);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .maintenance-subtitle {
+            color: white;
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.8; }
+        }
+        /* -------------------------------------- */
+
         /* Zone Fondateurs (Haut Gauche) */
         .founders-zone {
             position: absolute;
@@ -176,6 +213,11 @@
 
     <div class="overlay"></div>
 
+    <div class="maintenance-center">
+        <div class="maintenance-title">Maintenance en cours</div>
+        <div class="maintenance-subtitle">Merci de ne pas vous connecter si vous n'êtes pas développeur</div>
+    </div>
+
     <div class="founders-zone">
         <div class="founders-title">Direction du Complexe</div>
         <div class="founders-names">draco_tve & alex</div>
@@ -202,11 +244,11 @@
     <script>
         // --- MESSAGES ---
         const loadingMessages = [
-            'Préparation du serveur',
-            'Chargement des ressources',
-            'Connexion au serveur',
-            'Initialisation...',
-            'Presque prêt'
+            'Maintenance système en cours',
+            'Vérification des accès développeurs',
+            'Optimisation des bases de données',
+            'Mise à jour du protocole SITE-32',
+            'En attente de déploiement'
         ];
 
         const container = document.getElementById('message-container');

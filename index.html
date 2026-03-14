@@ -55,32 +55,13 @@
             z-index: 2;
         }
 
-        /* --- ENCADRÉ GAUCHE (Commandes) --- */
-        .side-box-left {
+        /* --- STYLES COMMUNS DES BOX --- */
+        .side-box {
             position: absolute;
-            top: 50%;
-            left: 50px;
-            transform: translateY(-50%);
             z-index: 3;
             color: white;
             background: rgba(0, 0, 0, 0.6);
             padding: 20px;
-            border-left: 4px solid #fff;
-            backdrop-filter: blur(5px);
-        }
-
-        /* --- ENCADRÉ DROITE (Staff) --- */
-        .side-box-right {
-            position: absolute;
-            top: 50%;
-            right: 50px;
-            transform: translateY(-50%);
-            z-index: 3;
-            color: white;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-right: 4px solid #fff;
-            text-align: right;
             backdrop-filter: blur(5px);
         }
 
@@ -100,6 +81,32 @@
             font-weight: 400;
             line-height: 1.6;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* --- PLACEMENT --- */
+        .side-box-left {
+            top: 50%;
+            left: 50px;
+            transform: translateY(-50%);
+            border-left: 4px solid #fff;
+        }
+
+        .side-box-right {
+            top: 50%;
+            right: 50px;
+            transform: translateY(-50%);
+            border-right: 4px solid #fff;
+            text-align: right;
+        }
+
+        /* --- NOUVELLE BOX LORE --- */
+        .side-box-lore {
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            text-align: center;
+            border-bottom: 4px solid #ff3e3e;
         }
 
         .highlight-cmd {
@@ -187,16 +194,23 @@
 
     <div class="overlay"></div>
 
-    <div class="side-box-left">
+    <div class="side-box side-box-lore">
+        <div class="box-title">Archives : Lore</div>
+        <div class="box-content">
+            L'Abri-315 est tombé. <br>
+            Les résidents sont retranchés dans une zone sécurisée pour le moment.
+        </div>
+    </div>
+
+    <div class="side-box side-box-left">
         <div class="box-title">Commandes In-Game</div>
         <div class="box-content">
-            <span class="highlight-cmd"></span><br>
             <span class="highlight-cmd">!bp</span><br>
             <span class="highlight-cmd">!boutique</span>
         </div>
     </div>
 
-    <div class="side-box-right">
+    <div class="side-box side-box-right">
         <div class="box-title">Fondateurs</div>
         <div class="box-content" style="margin-bottom: 15px;">
             draco_tve<br>
@@ -231,7 +245,7 @@
             'Initialisation du système',
             'Vérification des accès développeurs',
             'Optimisation des bases de données',
-            'Mise à jour du protocole de l abri-315',
+            'Mise à jour du protocole de l\'abri-315',
             'En attente de déploiement'
         ];
 

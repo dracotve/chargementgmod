@@ -2,496 +2,239 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Empire Orion — Chargement</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<title>Shadow RP Loading</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --gold:#c9a84c;--gold2:#8b6914;--gold3:#f0dba0;
-  --bg:#0a0704;--bg2:#110e08;
-  --border:#2a1f10;--border2:#4a3820;
-}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg)}
-
-/* ===== CANVAS ETOILES ===== */
-#stars{position:fixed;inset:0;z-index:0}
-
-/* ===== CHATEAU SILHOUETTE ===== */
-.castle{position:fixed;bottom:0;left:0;right:0;z-index:1;height:45vh;pointer-events:none}
-.castle svg{width:100%;height:100%}
-
-/* ===== BRUME ===== */
-.mist{
-  position:fixed;bottom:0;left:0;right:0;height:35vh;z-index:2;
-  background:linear-gradient(to top,rgba(10,7,4,.98) 0%,rgba(10,7,4,.7) 40%,transparent 100%);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-/* ===== CONTENU PRINCIPAL ===== */
-.wrap{
-  position:fixed;inset:0;z-index:10;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px;
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
 }
 
-/* Logo / Titre */
-.logo-area{text-align:center;margin-bottom:40px;animation:fadeDown .8s ease both}
-.logo-eyebrow{
-  font-family:'IM Fell English',serif;font-style:italic;
-  font-size:13px;letter-spacing:6px;color:var(--gold2);
-  margin-bottom:14px;opacity:.8;
-}
-.logo-sub{
-  font-family:'Cinzel',serif;
-  font-size:clamp(10px,1.5vw,14px);
-  letter-spacing:8px;
-  color:var(--gold2);
-  margin-top:14px;
-  text-transform:uppercase;
+/* BACKGROUND */
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("https://i.imgur.com/6sXPyw4.png");
+    background-size: cover;
+    background-position: center;
+    filter: blur(6px) brightness(0.5);
+    transform: scale(1.05);
 }
 
-/* Conteneur logo avec cercles */
-.logo-container{
-  position:relative;
-  width:240px;height:240px;
-  margin:0 auto;
-  display:flex;align-items:center;justify-content:center;
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.15), rgba(0,0,0,0.92));
 }
 
-/* Cercles tournants */
-.ring{
-  position:absolute;border-radius:50%;
-  border:1px solid transparent;
-  border-top-color:var(--gold);
-  border-right-color:var(--gold2);
-  box-shadow:0 0 8px rgba(201,168,76,.15);
-}
-.ring1{
-  width:220px;height:220px;
-  border-width:1.5px;
-  border-top-color:var(--gold);
-  border-right-color:transparent;
-  border-bottom-color:var(--gold2);
-  border-left-color:transparent;
-  animation:spin1 8s linear infinite;
-}
-.ring2{
-  width:196px;height:196px;
-  border-width:1px;
-  border-top-color:transparent;
-  border-right-color:var(--gold);
-  border-bottom-color:transparent;
-  border-left-color:var(--gold2);
-  animation:spin2 5s linear infinite;
-}
-.ring3{
-  width:170px;height:170px;
-  border-width:1px;
-  border-top-color:var(--gold2);
-  border-right-color:transparent;
-  border-bottom-color:var(--gold);
-  border-left-color:transparent;
-  animation:spin1 12s linear infinite reverse;
-  opacity:.5;
+/* 🔥 LOGO TOP LEFT (AJOUTÉ) */
+.toplogo {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 120px;
+    height: auto;
+    z-index: 10;
 }
 
-/* Petits losanges sur les cercles */
-.ring1::before,.ring1::after,.ring2::before,.ring2::after{
-  content:'';position:absolute;
-  width:6px;height:6px;
-  background:var(--gold);
-  transform:rotate(45deg);
-}
-.ring1::before{top:-4px;left:50%;margin-left:-3px}
-.ring1::after{bottom:-4px;left:50%;margin-left:-3px;background:var(--gold2)}
-.ring2::before{right:-4px;top:50%;margin-top:-3px}
-.ring2::after{left:-4px;top:50%;margin-top:-3px;background:var(--gold2)}
-
-/* Logo image */
-.logo-img-wrap{
-  position:relative;z-index:2;
-  width:140px;height:140px;
-  display:flex;align-items:center;justify-content:center;
-}
-.logo-img{
-  width:100%;height:100%;
-  object-fit:contain;
-  filter:drop-shadow(0 0 12px rgba(201,168,76,.3));
-  animation:logoPulse 3s ease-in-out infinite;
+/* LEFT TEXT */
+.left {
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    transform: translateY(-50%);
+    width: 320px;
+    color: white;
 }
 
-@keyframes spin1{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes spin2{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-@keyframes logoPulse{
-  0%,100%{filter:drop-shadow(0 0 12px rgba(201,168,76,.25))}
-  50%{filter:drop-shadow(0 0 24px rgba(201,168,76,.5))}
+.left h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
 }
 
-@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
-@keyframes shimmer{0%,100%{text-shadow:0 0 80px rgba(201,168,76,.2)}50%{text-shadow:0 0 120px rgba(201,168,76,.4),0 0 40px rgba(201,168,76,.3)}}
-
-/* Ornement */
-.ornament{display:flex;align-items:center;gap:16px;margin-bottom:40px;animation:fadeIn .8s .3s ease both}
-.orn-line{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--border2))}
-.orn-line.r{background:linear-gradient(90deg,var(--border2),transparent)}
-.orn-gem{width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
-.orn-gem-sm{width:5px;height:5px;background:var(--gold2);transform:rotate(45deg);margin:0 4px}
-
-/* Citation / Lore */
-.quote{
-  font-family:'IM Fell English',serif;font-style:italic;
-  font-size:clamp(13px,1.8vw,17px);
-  color:rgba(212,180,131,.6);
-  text-align:center;
-  max-width:600px;
-  line-height:1.8;
-  margin-bottom:50px;
-  animation:fadeIn .8s .5s ease both;
-  min-height:48px;
+.left p {
+    font-size: 14px;
+    opacity: 0.8;
+    line-height: 1.5;
 }
 
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-/* Barre de chargement */
-.loading-wrap{width:min(500px,80vw);animation:fadeIn .8s .7s ease both}
-.loading-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.loading-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold2);text-transform:uppercase}
-.loading-pct{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);font-weight:600}
-
-/* Barre principale */
-.bar-outer{
-  height:6px;background:rgba(42,31,16,.6);
-  border:1px solid var(--border);
-  position:relative;overflow:hidden;
-  margin-bottom:6px;
-}
-.bar-fill{
-  height:100%;background:var(--gold);
-  width:0%;
-  transition:width .3s ease;
-  position:relative;
-}
-.bar-fill::after{
-  content:'';position:absolute;top:0;right:0;width:30px;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,240,180,.6));
-  animation:barShine .8s linear infinite;
-}
-@keyframes barShine{from{opacity:0}50%{opacity:1}to{opacity:0}}
-
-/* Encoches sur la barre */
-.bar-ticks{display:flex;justify-content:space-between;padding:0 2px}
-.bar-tick{width:1px;height:4px;background:var(--border2);opacity:.5}
-
-/* Texte de statut */
-.status-text{
-  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
-  color:rgba(90,74,53,.8);text-transform:uppercase;
-  margin-top:8px;text-align:center;min-height:16px;
+/* SLIDESHOW */
+.slideshow {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%) rotate(-1deg);
+    width: 850px;
+    height: 520px;
+    border: 6px solid rgba(255,255,255,0.08);
+    box-shadow: 0 40px 120px rgba(0,0,0,0.75);
+    overflow: hidden;
+    background: black;
 }
 
-/* Infos serveur bas */
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
 
+.slideshow img.active {
+    opacity: 1;
+}
 
-/* Coin décorations */
-.corner{position:fixed;z-index:10;width:60px;height:60px}
-.corner svg{width:100%;height:100%}
-.corner.tl{top:20px;left:20px}
-.corner.tr{top:20px;right:20px;transform:scaleX(-1)}
-.corner.bl{bottom:20px;left:20px;transform:scaleY(-1)}
-.corner.br{bottom:20px;right:20px;transform:scale(-1)}
+/* TIP */
+.tip {
+    position: absolute;
+    bottom: 60px;
+    left: 50px;
+    color: #ddd;
+    font-size: 14px;
+    opacity: 0.85;
+    max-width: 600px;
+}
 
-/* Animation torche */
-.torch{position:fixed;z-index:5;bottom:42vh;animation:torchFlicker 2s ease-in-out infinite}
-.torch.l{left:8%}
-.torch.r{right:8%}
-.torch svg{width:32px;height:48px}
-@keyframes torchFlicker{0%,100%{filter:brightness(1)}25%{filter:brightness(1.3)}50%{filter:brightness(.9)}75%{filter:brightness(1.2)}}
+/* BOTTOM */
+.bottom {
+    position: absolute;
+    bottom: 30px;
+    left: 50px;
+    right: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-/* Particules */
-.particles{position:fixed;inset:0;z-index:3;pointer-events:none}
-.particle{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;opacity:0;animation:float linear infinite}
-@keyframes float{
-  0%{opacity:0;transform:translateY(0) translateX(0)}
-  10%{opacity:.6}
-  90%{opacity:.2}
-  100%{opacity:0;transform:translateY(-80vh) translateX(var(--dx))}
+.bar {
+    width: 75%;
+    height: 6px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    width: 0%;
+    height: 100%;
+    background: white;
+}
+
+.right {
+    text-align: right;
+    color: white;
+}
+
+.percent {
+    color: #f0c330;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.status {
+    font-size: 13px;
+    opacity: 0.8;
 }
 </style>
 </head>
+
 <body>
 
-<canvas id="stars"></canvas>
+<!-- BACKGROUND -->
+<div class="bg"></div>
+<div class="overlay"></div>
 
-<!-- Château silhouette -->
-<div class="castle">
-<svg viewBox="0 0 1400 400" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="0,400 120,200 250,300 380,140 500,220 580,100 680,180 780,80 880,160 960,100 1060,200 1150,160 1280,260 1400,180 1400,400" fill="#0d0a06"/>
-  <rect x="580" y="180" width="200" height="220" fill="#0a0704"/>
-  <rect x="540" y="130" width="60" height="90" fill="#0a0704"/>
-  <rect x="780" y="130" width="60" height="90" fill="#0a0704"/>
-  <rect x="645" y="60" width="90" height="150" fill="#080603"/>
-  <rect x="540" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="556" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="572" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="588" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="780" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="796" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="812" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="828" y="112" width="12" height="20" fill="#0a0704"/>
-  <rect x="645" y="42" width="12" height="20" fill="#080603"/>
-  <rect x="661" y="42" width="12" height="20" fill="#080603"/>
-  <rect x="677" y="42" width="12" height="20" fill="#080603"/>
-  <rect x="693" y="42" width="12" height="20" fill="#080603"/>
-  <rect x="709" y="42" width="12" height="20" fill="#080603"/>
-  <rect x="725" y="42" width="12" height="20" fill="#080603"/>
-  <path d="M660,400 L660,300 Q680,270 700,300 Q720,270 740,300 L740,400" fill="#060503"/>
-  <rect x="555" y="210" width="20" height="28" rx="10" fill="#c9a84c" opacity="0.3"/>
-  <rect x="805" y="210" width="20" height="28" rx="10" fill="#c9a84c" opacity="0.25"/>
-  <rect x="672" y="130" width="36" height="48" rx="18" fill="#c9a84c" opacity="0.5"/>
-  <!-- Muraille -->
-  <rect x="350" y="270" width="190" height="130" fill="#0c0906"/>
-  <rect x="860" y="270" width="190" height="130" fill="#0c0906"/>
-  <rect x="350" y="255" width="12" height="18" fill="#0c0906"/>
-  <rect x="366" y="255" width="12" height="18" fill="#0c0906"/>
-  <rect x="382" y="255" width="12" height="18" fill="#0c0906"/>
-  <rect x="860" y="255" width="12" height="18" fill="#0c0906"/>
-  <rect x="876" y="255" width="12" height="18" fill="#0c0906"/>
-  <rect x="892" y="255" width="12" height="18" fill="#0c0906"/>
-  <!-- Torche lumière -->
-  <ellipse cx="544" cy="196" rx="12" ry="16" fill="#c9a84c" opacity="0.5"/>
-  <ellipse cx="856" cy="196" rx="12" ry="16" fill="#c9a84c" opacity="0.4"/>
-</svg>
+<!-- 🔥 LOGO AJOUTÉ -->
+<img src="https://i.imgur.com/rYdidWL.png" class="toplogo">
+
+<!-- LEFT TEXT -->
+<div class="left">
+    <h2>ROLEPLAY IMMERSIF</h2>
+    <p>
+        Plonge dans un monde où chaque choix compte.<br>
+        Respecte les règles, crée ton histoire,<br>
+        et développe ton personnage.
+    </p>
 </div>
 
-<div class="mist"></div>
-
-<!-- Particules -->
-<div class="particles" id="particles"></div>
-
-<!-- Torches -->
-<div class="torch l">
-<svg viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="13" y="26" width="6" height="22" rx="1" fill="#3a2010"/>
-  <ellipse cx="16" cy="22" rx="10" ry="14" fill="#c9a84c" opacity="0.7"/>
-  <ellipse cx="16" cy="18" rx="7" ry="10" fill="#f0a030" opacity="0.6"/>
-  <ellipse cx="16" cy="14" rx="4" ry="7" fill="#fff0a0" opacity="0.5"/>
-</svg>
-</div>
-<div class="torch r">
-<svg viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="13" y="26" width="6" height="22" rx="1" fill="#3a2010"/>
-  <ellipse cx="16" cy="22" rx="10" ry="14" fill="#c9a84c" opacity="0.65"/>
-  <ellipse cx="16" cy="18" rx="7" ry="10" fill="#f0a030" opacity="0.55"/>
-  <ellipse cx="16" cy="14" rx="4" ry="7" fill="#fff0a0" opacity="0.45"/>
-</svg>
+<!-- SLIDESHOW -->
+<div class="slideshow">
+    <img src="https://i.imgur.com/IC56Wm2.jpeg" class="active">
+    <img src="https://i.imgur.com/pwxtdTH.jpeg">
+    <img src="https://i.imgur.com/7DTdVBV.jpeg">
+    <img src="https://i.imgur.com/mi3lnf3.jpeg">
+    <img src="https://i.imgur.com/wvLVU8e.jpeg">
 </div>
 
-<!-- Coins décoratifs -->
-<div class="corner tl">
-<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 55 L5 5 L55 5" stroke="#4a3820" stroke-width="1.5" fill="none"/>
-  <path d="M5 55 L5 18 L18 5" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.4"/>
-  <circle cx="5" cy="5" r="4" fill="#c9a84c"/>
-  <rect x="2" y="20" width="6" height="1" fill="#4a3820"/>
-  <rect x="2" y="30" width="6" height="1" fill="#4a3820"/>
-  <rect x="20" y="2" width="1" height="6" fill="#4a3820"/>
-  <rect x="30" y="2" width="1" height="6" fill="#4a3820"/>
-</svg>
-</div>
-<div class="corner tr">
-<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 55 L5 5 L55 5" stroke="#4a3820" stroke-width="1.5" fill="none"/>
-  <circle cx="5" cy="5" r="4" fill="#c9a84c"/>
-  <rect x="2" y="20" width="6" height="1" fill="#4a3820"/>
-  <rect x="2" y="30" width="6" height="1" fill="#4a3820"/>
-  <rect x="20" y="2" width="1" height="6" fill="#4a3820"/>
-  <rect x="30" y="2" width="1" height="6" fill="#4a3820"/>
-</svg>
-</div>
-<div class="corner bl">
-<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 55 L5 5 L55 5" stroke="#4a3820" stroke-width="1.5" fill="none"/>
-  <circle cx="5" cy="5" r="4" fill="#c9a84c"/>
-  <rect x="2" y="20" width="6" height="1" fill="#4a3820"/>
-  <rect x="30" y="2" width="1" height="6" fill="#4a3820"/>
-</svg>
-</div>
-<div class="corner br">
-<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 55 L5 5 L55 5" stroke="#4a3820" stroke-width="1.5" fill="none"/>
-  <circle cx="5" cy="5" r="4" fill="#c9a84c"/>
-  <rect x="2" y="20" width="6" height="1" fill="#4a3820"/>
-  <rect x="30" y="2" width="1" height="6" fill="#4a3820"/>
-</svg>
-</div>
+<!-- TIP -->
+<div class="tip" id="tip"></div>
 
-<!-- Contenu principal -->
-<div class="wrap">
-  <div class="logo-area">
-    <div class="logo-eyebrow">Serveur Garry's Mod — Médiéval RP</div>
-    <div class="logo-container">
-      <!-- Cercles tournants -->
-      <div class="ring ring1"></div>
-      <div class="ring ring2"></div>
-      <div class="ring ring3"></div>
-      <!-- Logo central -->
-      <div class="logo-img-wrap">
-        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDY4MCA4MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2ODAiIGhlaWdodD0iODAwIiBmaWxsPSIjMGQwYTA3Ii8+CjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iMzAwIiBmaWxsPSIjMGQwYTA3IiBzdHJva2U9IiNjOWE4NGMiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIzNDAiIGN5PSIzNDAiIHI9IjI5MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPGNpcmNsZSBjeD0iMzQwIiBjeT0iMzQwIiByPSIyNzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJhMWYxMCIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjxwb2x5Z29uIHBvaW50cz0iMzQwLDM4IDM0OCw1MCAzNDAsNjIgMzMyLDUwIiBmaWxsPSIjYzlhODRjIi8+Cjxwb2x5Z29uIHBvaW50cz0iMzQwLDYxOCAzNDgsNjMwIDM0MCw2NDIgMzMyLDYzMCIgZmlsbD0iI2M5YTg0YyIvPgo8cG9seWdvbiBwb2ludHM9IjM4LDM0MCA1MCwzNDggNjIsMzQwIDUwLDMzMiIgZmlsbD0iI2M5YTg0YyIvPgo8cG9seWdvbiBwb2ludHM9IjYxOCwzNDAgNjMwLDM0OCA2NDIsMzQwIDYzMCwzMzIiIGZpbGw9IiNjOWE4NGMiLz4KPHBvbHlnb24gcG9pbnRzPSIxMjYsMTI2IDEzMiwxMzQgMTI2LDE0MiAxMjAsMTM0IiBmaWxsPSIjOGI2OTE0Ii8+Cjxwb2x5Z29uIHBvaW50cz0iNTU0LDEyNiA1NjAsMTM0IDU1NCwxNDIgNTQ4LDEzNCIgZmlsbD0iIzhiNjkxNCIvPgo8cG9seWdvbiBwb2ludHM9IjEyNiw1NTQgMTMyLDU2MiAxMjYsNTcwIDEyMCw1NjIiIGZpbGw9IiM4YjY5MTQiLz4KPHBvbHlnb24gcG9pbnRzPSI1NTQsNTU0IDU2MCw1NjIgNTU0LDU3MCA1NDgsNTYyIiBmaWxsPSIjOGI2OTE0Ii8+CjxsaW5lIHgxPSIzNDAiIHkxPSI2MCIgeDI9IjM0MCIgeTI9IjEzMCIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPGxpbmUgeDE9IjM0MCIgeTE9IjU1MCIgeDI9IjM0MCIgeTI9IjYyMCIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPGxpbmUgeDE9IjYwIiB5MT0iMzQwIiB4Mj0iMTMwIiB5Mj0iMzQwIiBzdHJva2U9IiM0YTM4MjAiIHN0cm9rZS13aWR0aD0iMSIvPgo8bGluZSB4MT0iNTUwIiB5MT0iMzQwIiB4Mj0iNjIwIiB5Mj0iMzQwIiBzdHJva2U9IiM0YTM4MjAiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNMzQwIDEzMCBMNTAwIDE3MCBMNTAwIDMyMCBRNTAwIDQ0MCAzNDAgNTIwIFExODAgNDQwIDE4MCAzMjAgTDE4MCAxNzAgWiIgZmlsbD0iIzExMGUwOSIgc3Ryb2tlPSIjYzlhODRjIiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNMzQwIDE1MCBMNDgwIDE4NiBMNDgwIDMxOCBRNDgwIDQyNCAzNDAgNDk2IFEyMDAgNDI0IDIwMCAzMTggTDIwMCAxODYgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPGxpbmUgeDE9IjIwMCIgeTE9IjI4MCIgeDI9IjQ4MCIgeTI9IjI4MCIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPGxpbmUgeDE9IjM0MCIgeTE9IjE1MiIgeDI9IjM0MCIgeTI9IjQ5NCIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPGNpcmNsZSBjeD0iMjQ4IiBjeT0iMjAwIiByPSI0IiBmaWxsPSIjYzlhODRjIi8+CjxjaXJjbGUgY3g9IjI2OCIgY3k9IjIxNSIgcj0iMyIgZmlsbD0iI2M5YTg0YyIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIyMzUiIHI9IjMuNSIgZmlsbD0iI2M5YTg0YyIvPgo8Y2lyY2xlIGN4PSIyNzgiIGN5PSIyMjgiIHI9IjIuNSIgZmlsbD0iI2M5YTg0YyIvPgo8Y2lyY2xlIGN4PSIyOTAiIGN5PSIyMTAiIHI9IjMiIGZpbGw9IiNjOWE4NGMiLz4KPGNpcmNsZSBjeD0iMjc1IiBjeT0iMjQ4IiByPSIyIiBmaWxsPSIjYzlhODRjIi8+CjxjaXJjbGUgY3g9IjI2MCIgY3k9IjI1NSIgcj0iMi41IiBmaWxsPSIjYzlhODRjIi8+CjxsaW5lIHgxPSIyNDgiIHkxPSIyMDAiIHgyPSIyNjgiIHkyPSIyMTUiIHN0cm9rZT0iIzhiNjkxNCIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjI2OCIgeTE9IjIxNSIgeDI9IjI1NSIgeTI9IjIzNSIgc3Ryb2tlPSIjOGI2OTE0IiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNiIvPgo8bGluZSB4MT0iMjY4IiB5MT0iMjE1IiB4Mj0iMjkwIiB5Mj0iMjEwIiBzdHJva2U9IiM4YjY5MTQiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSIyNTUiIHkxPSIyMzUiIHgyPSIyNzgiIHkyPSIyMjgiIHN0cm9rZT0iIzhiNjkxNCIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjI3OCIgeTE9IjIyOCIgeDI9IjI5MCIgeTI9IjIxMCIgc3Ryb2tlPSIjOGI2OTE0IiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNiIvPgo8bGluZSB4MT0iMjU1IiB5MT0iMjM1IiB4Mj0iMjYwIiB5Mj0iMjU1IiBzdHJva2U9IiM4YjY5MTQiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSIyNjAiIHkxPSIyNTUiIHgyPSIyNzUiIHkyPSIyNDgiIHN0cm9rZT0iIzhiNjkxNCIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjQyMCIgeTE9IjE2MCIgeDI9IjQyMCIgeTI9IjI3MCIgc3Ryb2tlPSIjYzlhODRjIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cG9seWdvbiBwb2ludHM9IjQyMCwxNTUgNDEzLDE3NSA0MjAsMTcwIDQyNywxNzUiIGZpbGw9IiNjOWE4NGMiLz4KPHJlY3QgeD0iNDA1IiB5PSIyMTgiIHdpZHRoPSIzMCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2M5YTg0YyIvPgo8cmVjdCB4PSI0MTciIHk9IjI2OCIgd2lkdGg9IjYiIGhlaWdodD0iMTAiIHJ4PSIyIiBmaWxsPSIjOGI2OTE0Ii8+CjxwYXRoIGQ9Ik0yNTAgMzA1IEwzMTAgMzIwIEwzMTAgMzcwIFEzMTAgNDAwIDI1MCA0MTUgUTE5MCA0MDAgMTkwIDM3MCBMMTkwIDMyMCBaIiBmaWxsPSJub25lIiBzdHJva2U9IiM4YjY5MTQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxsaW5lIHgxPSIxOTAiIHkxPSIzNTUiIHgyPSIzMTAiIHkyPSIzNTUiIHN0cm9rZT0iIzRhMzgyMCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxsaW5lIHgxPSIyNTAiIHkxPSIzMjAiIHgyPSIyNTAiIHkyPSI0MTMiIHN0cm9rZT0iIzRhMzgyMCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0zNzUgMzIwIEwzODAgMzA1IEwzOTAgMzE1IEw0MDAgMzAwIEw0MTAgMzE1IEw0MjAgMzA1IEw0MjUgMzIwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M5YTg0YyIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHJlY3QgeD0iMzczIiB5PSIzMjAiIHdpZHRoPSI1NCIgaGVpZ2h0PSIxMCIgcng9IjEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M5YTg0YyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPGNpcmNsZSBjeD0iNDAwIiBjeT0iMzAyIiByPSIzIiBmaWxsPSIjYzlhODRjIi8+CjxjaXJjbGUgY3g9IjM4MCIgY3k9IjMwNiIgcj0iMi41IiBmaWxsPSIjYzlhODRjIi8+CjxjaXJjbGUgY3g9IjQyMCIgY3k9IjMwNiIgcj0iMi41IiBmaWxsPSIjYzlhODRjIi8+CjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNTUiIGZpbGw9IiMwZDBhMDciIHN0cm9rZT0iI2M5YTg0YyIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRhMzgyMCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM0MCwzNDApIj4KICA8cG9seWdvbiBwb2ludHM9IjAsLTM4IDYsLTEwIDM4LDAgNiwxMCAwLDM4IC02LDEwIC0zOCwwIC02LC0xMCIgZmlsbD0iI2M5YTg0YyIgb3BhY2l0eT0iMC4xNSIvPgogIDxwb2x5Z29uIHBvaW50cz0iMCwtMjggNCwtOCAyOCwwIDQsOCAwLDI4IC00LDggLTI4LDAgLTQsLTgiIGZpbGw9IiNjOWE4NGMiIG9wYWNpdHk9IjAuMjUiLz4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iMTIiIGZpbGw9IiMxMTBlMDkiIHN0cm9rZT0iI2M5YTg0YyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iNiIgZmlsbD0iI2M5YTg0YyIvPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIzIiBmaWxsPSIjMGQwYTA3Ii8+CjwvZz4KPGRlZnM+CiAgPHBhdGggaWQ9InRvcEFyYyIgZD0iTSAxNDAsMzQwIEEgMjAwLDIwMCAwIDAsMSA1NDAsMzQwIi8+CiAgPHBhdGggaWQ9ImJvdEFyYyIgZD0iTSAxNzUsNDIwIEEgMjAwLDIwMCAwIDAsMCA1MDUsNDIwIi8+CjwvZGVmcz4KPHRleHQgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjOGI2OTE0IiBsZXR0ZXItc3BhY2luZz0iNiI+CiAgPHRleHRQYXRoIGhyZWY9IiN0b3BBcmMiIHN0YXJ0T2Zmc2V0PSIxNSUiPkVNUElSRSAgT1JJT048L3RleHRQYXRoPgo8L3RleHQ+Cjx0ZXh0IGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzVhNGEzNSIgbGV0dGVyLXNwYWNpbmc9IjMiPgogIDx0ZXh0UGF0aCBocmVmPSIjYm90QXJjIiBzdGFydE9mZnNldD0iMjAlIj5HQVJSWSdTIE1PRCAgTUVESUVWQUwgUlA8L3RleHRQYXRoPgo8L3RleHQ+Cjxwb2x5Z29uIHBvaW50cz0iMzQwLDI3NiAzNDUsMjg1IDM0MCwyOTQgMzM1LDI4NSIgZmlsbD0iI2M5YTg0YyIgb3BhY2l0eT0iMC44Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMjAwLDM0MCAyMDksMzQ1IDIxOCwzNDAgMjA5LDMzNSIgZmlsbD0iIzhiNjkxNCIgb3BhY2l0eT0iMC44Ii8+Cjxwb2x5Z29uIHBvaW50cz0iNDYyLDM0MCA0NzEsMzQ1IDQ4MCwzNDAgNDcxLDMzNSIgZmlsbD0iIzhiNjkxNCIgb3BhY2l0eT0iMC44Ii8+Cgo8IS0tIExpZ25lIHPDqXBhcmF0cmljZSAtLT4KPGxpbmUgeDE9IjE4MCIgeTE9IjY2MCIgeDI9IjUwMCIgeTI9IjY2MCIgc3Ryb2tlPSIjNGEzODIwIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBvbHlnb24gcG9pbnRzPSIzNDAsNjUyIDM0Niw2NjIgMzQwLDY3MiAzMzQsNjYyIiBmaWxsPSIjYzlhODRjIi8+Cgo8IS0tIE5vbSBPUklPTiBlbiBncmFuZCAtLT4KPHRleHQgeD0iMzQwIiB5PSI3MzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgZm9udC1zaXplPSI5MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNjOWE4NGMiIGxldHRlci1zcGFjaW5nPSIxOCI+T1JJT048L3RleHQ+Cgo8IS0tIFNvdXMtdGl0cmUgLS0+Cjx0ZXh0IHg9IjM0MCIgeT0iNzY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iR2VvcmdpYSwgc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM1YTRhMzUiIGxldHRlci1zcGFjaW5nPSI4Ij5FTVBJUkUgIE1FRElFVkFMPC90ZXh0PgoKPCEtLSBQZXRpdHMgbG9zYW5nZXMgZW5jYWRyYW50IGxlIHRleHRlIC0tPgo8cG9seWdvbiBwb2ludHM9IjEwOCw3MjYgMTE1LDczNCAxMDgsNzQyIDEwMSw3MzQiIGZpbGw9IiM4YjY5MTQiIG9wYWNpdHk9IjAuNiIvPgo8cG9seWdvbiBwb2ludHM9IjU3Miw3MjYgNTc5LDczNCA1NzIsNzQyIDU2NSw3MzQiIGZpbGw9IiM4YjY5MTQiIG9wYWNpdHk9IjAuNiIvPgo8L3N2Zz4K" alt="Empire Orion" class="logo-img"/>
-      </div>
+<!-- BOTTOM -->
+<div class="bottom">
+    <div class="bar">
+        <div class="fill" id="fill"></div>
     </div>
-    <div class="logo-sub">Le Royaume des Étoiles</div>
-  </div>
 
-  <div class="ornament">
-    <div class="orn-line"></div>
-    <div class="orn-gem-sm"></div>
-    <div class="orn-gem"></div>
-    <div class="orn-gem-sm"></div>
-    <div class="orn-line r"></div>
-  </div>
-
-  <div class="quote" id="quote">
-    <em>"Chaque guerrier qui s'agenouille devant le trône d'Orion porte en lui la lumière des étoiles."</em>
-  </div>
-
-  <div class="loading-wrap">
-    <div class="loading-header">
-      <span class="loading-label">Chargement du Royaume</span>
-      <span class="loading-pct" id="pct">0%</span>
+    <div class="right">
+        <div class="status" id="status">CHARGEMENT...</div>
+        <div class="percent" id="percent">0%</div>
     </div>
-    <div class="bar-outer">
-      <div class="bar-fill" id="bar"></div>
-    </div>
-    <div class="bar-ticks">
-      <div class="bar-tick"></div><div class="bar-tick"></div>
-      <div class="bar-tick"></div><div class="bar-tick"></div>
-      <div class="bar-tick"></div><div class="bar-tick"></div>
-      <div class="bar-tick"></div><div class="bar-tick"></div>
-      <div class="bar-tick"></div>
-    </div>
-    <div class="status-text" id="status">Connexion aux serveurs royaux...</div>
-  </div>
 </div>
-
-
 
 <script>
-// ===== ETOILES =====
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-function resize() {
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  drawStars();
-}
-function drawStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < 300; i++) {
-    const x  = Math.random() * canvas.width;
-    const y  = Math.random() * canvas.height * 0.75;
-    const r  = Math.random() * 1.4 + 0.2;
-    const op = Math.random() * 0.7 + 0.15;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,248,220,${op})`;
-    ctx.fill();
-  }
-}
-window.addEventListener('resize', resize);
-resize();
 
-// ===== PARTICULES ETINCELLES =====
-const pCont = document.getElementById('particles');
-function spawnParticle() {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const x  = Math.random() * 100;
-  const dx = (Math.random() - 0.5) * 60;
-  const dur = Math.random() * 6 + 4;
-  const delay = Math.random() * 4;
-  p.style.cssText = `left:${x}%;bottom:0;--dx:${dx}px;animation-duration:${dur}s;animation-delay:${delay}s`;
-  pCont.appendChild(p);
-  setTimeout(() => p.remove(), (dur + delay) * 1000);
-}
-setInterval(spawnParticle, 300);
+const imgs = document.querySelectorAll(".slideshow img");
+let index = 0;
 
-// ===== CHARGEMENT =====
-const quotes = [
-  "\"Chaque guerrier qui s'agenouille devant le trône d'Orion porte en lui la lumière des étoiles.\"",
-  "\"Les pierres de nos remparts ont été posées par le sang de nos ancêtres. Honorons leur mémoire.\"",
-  "\"Un Seigneur sans honneur n'est qu'un bandit couronné.\"",
-  "\"La nuit la plus sombre précède toujours l'aube dorée de l'Empire.\"",
-  "\"L'épée protège, mais c'est la sagesse qui gouverne.\""
-];
-
-const statuses = [
-  "Connexion aux serveurs royaux...",
-  "Chargement des terres de l'Empire...",
-  "Préparation des armureries...",
-  "Invocation des esprits ancestraux...",
-  "Déploiement des bannières...",
-  "Ouverture des portes du château...",
-  "Bienvenue dans l'Empire Orion !"
-];
-
-let progress = 0;
-const bar    = document.getElementById('bar');
-const pct    = document.getElementById('pct');
-const status = document.getElementById('status');
-const quote  = document.getElementById('quote');
-
-// Changer de citation toutes les 5s
-let qi = 0;
+/* slideshow */
 setInterval(() => {
-  qi = (qi + 1) % quotes.length;
-  quote.style.opacity = '0';
-  quote.style.transition = 'opacity .5s';
-  setTimeout(() => {
-    quote.innerHTML = `<em>${quotes[qi]}</em>`;
-    quote.style.opacity = '1';
-  }, 500);
-}, 5000);
+    imgs[index].classList.remove("active");
+    index = (index + 1) % imgs.length;
+    imgs[index].classList.add("active");
+}, 3000);
 
-// Simuler la progression (en vrai GMod envoie les données via JS)
-function updateProgress(p, text) {
-  progress = Math.min(p, 100);
-  bar.style.width = progress + '%';
-  pct.textContent = Math.round(progress) + '%';
-  if (text) status.textContent = text;
+/* loading infini */
+let p = 0;
+const fill = document.getElementById("fill");
+const percent = document.getElementById("percent");
+const status = document.getElementById("status");
+
+const states = [
+    "Connexion au serveur...",
+    "Chargement des ressources...",
+    "Synchronisation RP...",
+    "Chargement des entités...",
+    "Initialisation du monde...",
+    "Vérification des scripts...",
+    "Optimisation du serveur..."
+];
+
+function load() {
+    p += Math.random() * 3;
+    if (p > 100) p = 0;
+
+    fill.style.width = p + "%";
+    percent.textContent = Math.floor(p) + "%";
+
+    status.textContent = states[Math.floor(Math.random() * states.length)];
+
+    requestAnimationFrame(load);
 }
 
-// GMod injecte les vraies valeurs — on simule ici pour la démo
-let demo = 0;
-const demoInt = setInterval(() => {
-  demo += Math.random() * 8 + 2;
-  const si = Math.min(Math.floor(demo / 100 * statuses.length), statuses.length - 1);
-  updateProgress(demo, statuses[si]);
-  if (demo >= 100) clearInterval(demoInt);
-}, 200);
+load();
 
-// ===== API GMOD LOADING =====
-// Ces fonctions sont appelées par GMod automatiquement
-function GameDetails(servName, servURL, mapName, maxPlayers, steamID, gameMode) {
-  // On peut afficher le nom du serveur ici si besoin
-}
-function SetFilesTotal(total) {
-  window._filesTotal = total;
-}
-function SetFilesNeeded(needed) {
-  window._filesNeeded = needed;
-}
-function DownloadingFile(fileName) {
-  const done   = (window._filesTotal || 1) - (window._filesNeeded || 0);
-  const total  = window._filesTotal || 1;
-  const p      = Math.min((done / total) * 95, 95);
-  const name   = fileName.split('/').pop();
-  updateProgress(p, 'Téléchargement : ' + name);
-}
-function LoadingComplete(mapName) {
-  clearInterval(demoInt);
-  updateProgress(100, 'Bienvenue dans l\'Empire Orion !');
-}
 </script>
+
 </body>
 </html>
